@@ -1,0 +1,12 @@
+abc
+ABC
+123
+A9
+abcdef
+ABCDEF
+!!!
+   
+	
+a1_
+foo-bar
+00ff

@@ -1,0 +1,24 @@
+aa
+abab
+abcabc
+aaaa
+!!!!
+____
+123123
+a-a-
+zzzz
+xyxy
+bb
+bbbb
+cc
+dddd
+abc
+ABC
+Def
+foofoo
+foo foo
+fooXXbar
+ab12
+xyz999
+--
+!!
