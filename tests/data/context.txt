@@ -1,0 +1,15 @@
+pre1
+pre2
+MATCH
+after1
+after2
+gap1
+gap2
+gap3
+gap4
+pre3
+pre4
+MATCH
+after3
+after4
+tail

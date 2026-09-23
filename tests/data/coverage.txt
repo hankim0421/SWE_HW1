@@ -1,0 +1,34 @@
+first line
+foo
+FOO
+bar
+alpha
+no match here
+MATCH
+after match
+abab
+ababc
+acac
+abcabc12
+aaaa
+aa
+ab
+abe
+abcde
+cc
+cccc
+ddd
+123
+A9
+_foo_
+foo!
+!foo
+xfoo
+foox
+foo_bar
+b
+c
+d
+cde
+z9
+last line

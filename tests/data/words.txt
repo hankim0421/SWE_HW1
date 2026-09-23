@@ -1,0 +1,8 @@
+xxfooxx
+foo_bar
+xfoo
+foox
+foo!
+!foo
+foo
+bar

@@ -1,0 +1,8 @@
+File 'src/grep.c'
+Lines executed:72.42% of 3271
+Branches executed:68.21% of 3416
+Taken at least once:50.59% of 3416
+Calls executed:74.80% of 381
+Creating 'grep.c.gcov'
+
+Lines executed:72.42% of 3271
