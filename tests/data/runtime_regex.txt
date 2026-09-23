@@ -1,0 +1,7 @@
+foo!foo
+ab-ab
+abcd!abcd
+ab!a
+foofoo
+aa
+aaaa
