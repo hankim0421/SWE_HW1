@@ -1,0 +1,30 @@
+Axx
+Bbb
+Bzz
+Czz
+Cbb
+D:a!a!
+D:!!
+D:aaaa
+E:foobarfoobar
+E:xfoobarfoobar
+E:foo barfoo bar
+F:foo foo
+F:xfoo foo
+F:foobar foo
+G:abab
+G:ababX
+I:aaaa
+I:a
+J:bbbb
+J:b
+Q
+R
+K:c
+L:dddd
+M:
+N:f
+aaabaaa
+abczabc
+1212
+!!!!
