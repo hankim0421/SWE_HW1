@@ -5,3 +5,8 @@ ab!a
 foofoo
 aa
 aaaa
+a!!a
+abc?a
+ff!x
+ff!!
+ff!xy
