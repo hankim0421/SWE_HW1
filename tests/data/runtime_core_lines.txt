@@ -1,8 +1,12 @@
 Xabab
 Yaahello
 Bxx!fooX
+Bxx!fooXY
+Bxx!fooX!
 Cxxafoo
 Dxx!foo
 Exx!foo!
+Exx!foo!!
+Exx!foo!A
 Fxxafoo
 Hxx!fooa
