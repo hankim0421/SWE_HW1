@@ -869,16 +869,16 @@ branch  3 taken 0%
       100:  648:  while ((opt = getopt(argc, argv, "0123456789A:B:CEFGVX:bce:f:hiLlnqsvwxy"))
 call    0 returned 100%
       100:  649:	 != EOF)
-branch  0 taken 69%
-branch  1 taken 31% (fallthrough)
-       69:  650:    switch (opt)
+branch  0 taken 70%
+branch  1 taken 30% (fallthrough)
+       70:  650:    switch (opt)
 branch  0 taken 1%
-branch  1 taken 1%
+branch  1 taken 3%
 branch  2 taken 1%
 branch  3 taken 1%
 branch  4 taken 6%
 branch  5 taken 4%
-branch  6 taken 22%
+branch  6 taken 21%
 branch  7 taken 1%
 branch  8 taken 1%
 branch  9 taken 1%
@@ -910,13 +910,13 @@ branch 23 taken 0%
         1:  662:	out_before = 10 * out_before + opt - '0';
         1:  663:	out_after = 10 * out_after + opt - '0';
         1:  664:	break;
-        1:  665:      case 'A':
-        1:  666:	out_after = atoi(optarg);
-        1:  667:	if (out_after < 0)
-branch  0 taken 0% (fallthrough)
-branch  1 taken 100%
-    #####:  668:	  usage();
-call    0 never executed
+        2:  665:      case 'A':
+        2:  666:	out_after = atoi(optarg);
+        2:  667:	if (out_after < 0)
+branch  0 taken 50% (fallthrough)
+branch  1 taken 50%
+        1:  668:	  usage();
+call    0 returned 0%
         1:  669:	break;
         1:  670:      case 'B':
         1:  671:	out_before = atoi(optarg);
@@ -1082,19 +1082,19 @@ call    0 never executed
     #####:  778:	break;
         -:  779:      }
         -:  780:
-       31:  781:  if (!keyfound)
-branch  0 taken 65% (fallthrough)
-branch  1 taken 35%
-       20:  782:    if (optind < argc)
-branch  0 taken 95% (fallthrough)
-branch  1 taken 5%
+       30:  781:  if (!keyfound)
+branch  0 taken 63% (fallthrough)
+branch  1 taken 37%
+       19:  782:    if (optind < argc)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
         -:  783:      {
        19:  784:	keys = argv[optind++];
        19:  785:	keycc = strlen(keys);
         -:  786:      }
         -:  787:    else
-        1:  788:      usage();
-call    0 returned 0%
+    #####:  788:      usage();
+call    0 never executed
         -:  789:
        30:  790:  if (!matcher)
 branch  0 taken 27% (fallthrough)
