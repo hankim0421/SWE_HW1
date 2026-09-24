@@ -29,4 +29,5 @@ $MYGREP -G -f data/backref_recover.txt data/backref_recover_input.txt
 printf 'foo\n' | $MYGREP -c -l "foo"
 $MYGREP -G -f data/runtime_core.txt data/runtime_core_lines.txt data/runtime_core_end.txt
 $MYGREP -G -f data/deep_regex.txt data/deep_input.txt
-$MYGREP -E '[z-a]' data/coverage.txt
+$MYGREP
+//$MYGREP -E '[z-a]' data/coverage.txt
