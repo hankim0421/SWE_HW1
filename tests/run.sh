@@ -1,7 +1,7 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 $MYGREP -V -i -n -b -2 -A1 -B3 -C -e "MATCH" -e "foo" data/context.txt data/large.txt data/residue_context.txt data/missing_extra.txt
-$MYGREP -c -h -q -s -v "foo" data/coverage.txt data/empty.txt data/missing.txt
+$MYGREP -c -h -q -s -v "foo" data/coverage.txt data/empty.txt data/missing.txt data/nomatch_nonl.txt data/allfoo.txt
 $MYGREP -c -l "foo" data/coverage.txt data/empty.txt
 $MYGREP -E '[[:bogus:]]' data/coverage.txt
 $MYGREP -L "foo" data/coverage.txt data/empty.txt
@@ -11,7 +11,7 @@ $MYGREP -E -i -w 'FoO([[:alpha:]]|[[:upper:]]|[[:lower:]]|[[:digit:]]|[[:xdigit:
 $MYGREP -X egrep -x '(^a|b$)|(a^b)|(c$d)|([[:digit:]]+)|([^a])' data/engine.txt
 $MYGREP -F -w "foo" data/words.txt data/no_newline.txt data/bm_fast.txt data/bm_tail.txt data/word_end.txt
 $MYGREP -F -x -f data/fixed_many.txt data/engine.txt data/fixed_exact.txt data/fixed_exact_nonl.txt
-printf 'bar\n' | $MYGREP -c -L "foo"
+$MYGREP -G -f data/null_runtime_probe.txt data/null_runtime_probe_input.txt
 $MYGREP -G -f data/bre_mega.txt -f data/bre_edges_extra.txt data/regex_edges.txt data/engine.txt data/runtime_regex.txt data/lex_input.txt
 $MYGREP -E -i -e '^((ab|cd)+e?f*){2,4}$' -e 'a{2,}' -e 'b{0}' -e 'c{0,2}' -f data/ere_edges.txt -f data/ere_edges_extra.txt data/engine.txt data/classmix.txt data/lex_input.txt
 $MYGREP -G '^\<\(\w\{2,4\}\)\>\W\1$\|^\(\w\)\B\w\b\W\2$' data/runtime_regex.txt
