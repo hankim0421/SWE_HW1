@@ -11,6 +11,3 @@ bark
 aba
 abab
 bab
-he
-
-xyz
