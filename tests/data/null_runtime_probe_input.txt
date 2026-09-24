@@ -1,7 +1,11 @@
 A
 B
-abab
-aaaa
-abcabc
-abcxabcx
-abZabZ
+QaabQaab
+xxaaa
+C
+X
+cc
+aaaaC
+bbbbC
+ccccC
+abc
