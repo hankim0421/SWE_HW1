@@ -174,21 +174,21 @@ call    0 returned 100%
         -:  162:
         -:  163:/* Interface to handle errors and fix library lossage. */
         -:  164:char *
-function xmalloc called 41 returned 100% blocks executed 80%
-       41:  165:xmalloc(size)
+function xmalloc called 42 returned 100% blocks executed 80%
+       42:  165:xmalloc(size)
         -:  166:     size_t size;
         -:  167:{
         -:  168:  char *result;
         -:  169:
-       41:  170:  result = malloc(size);
-       41:  171:  if (size && !result)
+       42:  170:  result = malloc(size);
+       42:  171:  if (size && !result)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
 branch  2 taken 0% (fallthrough)
 branch  3 taken 100%
     #####:  172:    fatal("memory exhausted", 0);
 call    0 never executed
-       41:  173:  return result;
+       42:  173:  return result;
         -:  174:}
         -:  175:
         -:  176:/* Interface to handle errors and fix some library lossage. */
@@ -306,8 +306,8 @@ call    0 returned 100%
         -:  267:   to the beginning of the buffer contents, and 'buflim'
         -:  268:   points just after the end.  Return count of new stuff. */
         -:  269:static int
-function fillbuf called 83 returned 100% blocks executed 83%
-       83:  270:fillbuf(save)
+function fillbuf called 82 returned 100% blocks executed 83%
+       82:  270:fillbuf(save)
         -:  271:     size_t save;
         -:  272:{
         -:  273:  char *nbuffer, *dp, *sp;
@@ -317,7 +317,7 @@ function fillbuf called 83 returned 100% blocks executed 83%
         -:  277:#endif
         -:  278:  static int pagesize;
         -:  279:
-       83:  280:  if (pagesize == 0 && (pagesize = getpagesize()) == 0)
+       82:  280:  if (pagesize == 0 && (pagesize = getpagesize()) == 0)
 branch  0 taken 35% (fallthrough)
 branch  1 taken 65%
 branch  2 taken 0% (fallthrough)
@@ -325,18 +325,18 @@ branch  3 taken 100%
     #####:  281:    abort();
 call    0 never executed
         -:  282:
-       83:  283:  if (save > bufsalloc)
-branch  0 taken 2% (fallthrough)
-branch  1 taken 98%
+       82:  283:  if (save > bufsalloc)
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
         -:  284:    {
-        6:  285:      while (save > bufsalloc)
+        3:  285:      while (save > bufsalloc)
 branch  0 taken 67%
 branch  1 taken 33% (fallthrough)
-        4:  286:	bufsalloc *= 2;
-        2:  287:      bufalloc = 5 * bufsalloc;
-        2:  288:      nbuffer = valloc(bufalloc + 1);
+        2:  286:	bufsalloc *= 2;
+        1:  287:      bufalloc = 5 * bufsalloc;
+        1:  288:      nbuffer = valloc(bufalloc + 1);
 call    0 returned 100%
-        2:  289:      if (!nbuffer)
+        1:  289:      if (!nbuffer)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####:  290:	fatal("memory exhausted", 0);
@@ -345,34 +345,34 @@ call    0 never executed
         -:  292:  else
        81:  293:    nbuffer = buffer;
         -:  294:
-       83:  295:  sp = buflim - save;
-       83:  296:  dp = nbuffer + bufsalloc - save;
-       83:  297:  bufbeg = dp;
-    65650:  298:  while (save--)
+       82:  295:  sp = buflim - save;
+       82:  296:  dp = nbuffer + bufsalloc - save;
+       82:  297:  bufbeg = dp;
+    32898:  298:  while (save--)
 branch  0 taken 100%
 branch  1 taken 1% (fallthrough)
-    65567:  299:    *dp++ = *sp++;
+    32816:  299:    *dp++ = *sp++;
         -:  300:
         -:  301:  /* We may have allocated a new, larger buffer.  Since
         -:  302:     there is no portable vfree(), we just have to forget
         -:  303:     about the old one.  Sorry. */
-       83:  304:  buffer = nbuffer;
+       82:  304:  buffer = nbuffer;
         -:  305:
         -:  306:#if defined(HAVE_WORKING_MMAP)
-       83:  307:  if (bufmapped && bufoffset % pagesize == 0
+       82:  307:  if (bufmapped && bufoffset % pagesize == 0
 branch  0 taken 49% (fallthrough)
 branch  1 taken 51%
 branch  2 taken 0% (fallthrough)
 branch  3 taken 100%
-       41:  308:      && bufstat.st_size - bufoffset >= bufalloc - bufsalloc)
-branch  0 taken 95% (fallthrough)
-branch  1 taken 5%
+       40:  308:      && bufstat.st_size - bufoffset >= bufalloc - bufsalloc)
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
         -:  309:    {
-        2:  310:      maddr = buffer + bufsalloc;
-        2:  311:      maddr = mmap(maddr, bufalloc - bufsalloc, PROT_READ | PROT_WRITE,
+        1:  310:      maddr = buffer + bufsalloc;
+        1:  311:      maddr = mmap(maddr, bufalloc - bufsalloc, PROT_READ | PROT_WRITE,
 call    0 returned 100%
         -:  312:		   MAP_PRIVATE | MAP_FIXED, bufdesc, bufoffset);
-        2:  313:      if (maddr == (caddr_t) -1)
+        1:  313:      if (maddr == (caddr_t) -1)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
         -:  314:	{
@@ -388,8 +388,8 @@ call    0 never executed
         -:  322:	 In fact, it actually slows us down about 30%! */
         -:  323:      madvise(maddr, bufalloc - bufsalloc, MADV_SEQUENTIAL);
         -:  324:#endif
-        2:  325:      cc = bufalloc - bufsalloc;
-        2:  326:      bufoffset += cc;
+        1:  325:      cc = bufalloc - bufsalloc;
+        1:  326:      bufoffset += cc;
         -:  327:    }
         -:  328:  else
         -:  329:    {
@@ -411,13 +411,13 @@ call    0 returned 100%
         -:  341:#else
         -:  342:  cc = read(bufdesc, buffer + bufsalloc, bufalloc - bufsalloc);
         -:  343:#endif
-       83:  344:  if (cc > 0)
+       82:  344:  if (cc > 0)
 branch  0 taken 48% (fallthrough)
 branch  1 taken 52%
-       40:  345:    buflim = buffer + bufsalloc + cc;
+       39:  345:    buflim = buffer + bufsalloc + cc;
         -:  346:  else
        43:  347:    buflim = buffer + bufsalloc;
-       83:  348:  return cc;
+       82:  348:  return cc;
         -:  349:}
         -:  350:
         -:  351:/* Flags controlling the style of output. */
@@ -456,20 +456,20 @@ branch  1 taken 80%
        18:  379:}
         -:  380:
         -:  381:static void
-function prline called 171 returned 100% blocks executed 92%
-      171:  382:prline(beg, lim, sep)
+function prline called 155 returned 100% blocks executed 92%
+      155:  382:prline(beg, lim, sep)
         -:  383:     char *beg;
         -:  384:     char *lim;
         -:  385:     char sep;
         -:  386:{
-      171:  387:  if (out_file)
-branch  0 taken 68% (fallthrough)
-branch  1 taken 32%
-      117:  388:    printf("%s%c", filename, sep);
+      155:  387:  if (out_file)
+branch  0 taken 77% (fallthrough)
+branch  1 taken 23%
+      119:  388:    printf("%s%c", filename, sep);
 call    0 returned 100%
-      171:  389:  if (out_line)
-branch  0 taken 8% (fallthrough)
-branch  1 taken 92%
+      155:  389:  if (out_line)
+branch  0 taken 9% (fallthrough)
+branch  1 taken 91%
         -:  390:    {
        14:  391:      nlscan(beg);
 call    0 returned 100%
@@ -477,21 +477,21 @@ call    0 returned 100%
 call    0 returned 100%
        14:  393:      lastnl = lim;
         -:  394:    }
-      171:  395:  if (out_byte)
-branch  0 taken 8% (fallthrough)
-branch  1 taken 92%
+      155:  395:  if (out_byte)
+branch  0 taken 9% (fallthrough)
+branch  1 taken 91%
        14:  396:    printf("%lu%c", totalcc + (beg - bufbeg), sep);
 call    0 returned 100%
-      171:  397:  fwrite(beg, 1, lim - beg, stdout);
+      155:  397:  fwrite(beg, 1, lim - beg, stdout);
 call    0 returned 100%
-      171:  398:  if (ferror(stdout))
+      155:  398:  if (ferror(stdout))
 call    0 returned 100%
 branch  1 taken 0% (fallthrough)
 branch  2 taken 100%
     #####:  399:    error("writing output", errno);
 call    0 never executed
-      171:  400:  lastout = lim;
-      171:  401:}
+      155:  400:  lastout = lim;
+      155:  401:}
         -:  402:
         -:  403:/* Print pending lines of trailing context prior to LIM. */
         -:  404:static void
@@ -526,8 +526,8 @@ call    0 returned 100%
         -:  423:/* Print the lines between BEG and LIM.  Deal with context crap.
         -:  424:   If NLINESP is non-null, store a count of lines between BEG and LIM. */
         -:  425:static void
-function prtext called 179 returned 100% blocks executed 94%
-      179:  426:prtext(beg, lim, nlinesp)
+function prtext called 163 returned 100% blocks executed 94%
+      163:  426:prtext(beg, lim, nlinesp)
         -:  427:     char *beg;
         -:  428:     char *lim;
         -:  429:     int *nlinesp;
@@ -536,26 +536,26 @@ function prtext called 179 returned 100% blocks executed 94%
         -:  432:  char *bp, *p, *nl;
         -:  433:  int i, n;
         -:  434:
-      179:  435:  if (!out_quiet && pending > 0)
-branch  0 taken 90% (fallthrough)
-branch  1 taken 10%
+      163:  435:  if (!out_quiet && pending > 0)
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
 branch  2 taken 1% (fallthrough)
 branch  3 taken 99%
         1:  436:    prpending(beg);
 call    0 returned 100%
         -:  437:
-      179:  438:  p = beg;
+      163:  438:  p = beg;
         -:  439:
-      179:  440:  if (!out_quiet)
-branch  0 taken 90% (fallthrough)
-branch  1 taken 10%
+      163:  440:  if (!out_quiet)
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
         -:  441:    {
         -:  442:      /* Deal with leading context crap. */
         -:  443:
-      161:  444:      bp = lastout ? lastout : bufbeg;
-branch  0 taken 83% (fallthrough)
-branch  1 taken 17%
-      169:  445:      for (i = 0; i < out_before; ++i)
+      145:  444:      bp = lastout ? lastout : bufbeg;
+branch  0 taken 81% (fallthrough)
+branch  1 taken 19%
+      153:  445:      for (i = 0; i < out_before; ++i)
 branch  0 taken 5%
 branch  1 taken 95% (fallthrough)
         8:  446:	if (p > bp)
@@ -571,9 +571,9 @@ branch  3 taken 1% (fallthrough)
         -:  450:
         -:  451:      /* We only print the "--" separator if our output is
         -:  452:	 discontiguous from the last output in the file. */
-      161:  453:      if ((out_before || out_after) && used && p != lastout)
-branch  0 taken 98% (fallthrough)
-branch  1 taken 2%
+      145:  453:      if ((out_before || out_after) && used && p != lastout)
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
 branch  2 taken 0% (fallthrough)
 branch  3 taken 100%
 branch  4 taken 75% (fallthrough)
@@ -583,7 +583,7 @@ branch  7 taken 0%
         3:  454:	puts("--");
 call    0 returned 100%
         -:  455:
-      166:  456:      while (p < beg)
+      150:  456:      while (p < beg)
 branch  0 taken 3%
 branch  1 taken 97% (fallthrough)
         -:  457:	{
@@ -594,7 +594,7 @@ call    0 returned 100%
         -:  461:	}
         -:  462:    }
         -:  463:
-      179:  464:  if (nlinesp)
+      163:  464:  if (nlinesp)
 branch  0 taken 2% (fallthrough)
 branch  1 taken 98%
         -:  465:    {
@@ -619,15 +619,15 @@ call    0 never executed
         3:  477:      *nlinesp = n;
         -:  478:    }
         -:  479:  else
-      176:  480:    if (!out_quiet)
+      160:  480:    if (!out_quiet)
 branch  0 taken 91% (fallthrough)
 branch  1 taken 9%
-      161:  481:      prline(beg, lim, ':');
+      145:  481:      prline(beg, lim, ':');
 call    0 returned 100%
         -:  482:
-      179:  483:  pending = out_after;
-      179:  484:  used = 1;
-      179:  485:}
+      163:  483:  pending = out_after;
+      163:  484:  used = 1;
+      163:  485:}
         -:  486:
         -:  487:/* Scan the specified portion of the buffer, matching lines (or
         -:  488:   between matching lines if OUT_INVERT is true).  Return a count of
@@ -644,13 +644,13 @@ function grepbuf called 39 returned 100% blocks executed 95%
         -:  498:
        39:  499:  nlines = 0;
        39:  500:  p = beg;
-      222:  501:  while ((b = (*execute)(p, lim - p, &endp)) != 0)
+      206:  501:  while ((b = (*execute)(p, lim - p, &endp)) != 0)
 call    0 returned 100%
-branch  1 taken 83%
-branch  2 taken 17% (fallthrough)
+branch  1 taken 82%
+branch  2 taken 18% (fallthrough)
         -:  502:    {
         -:  503:      /* Avoid matching the empty line at the end of the buffer. */
-     184*:  504:      if (b == lim && ((b > beg && b[-1] == '\n') || b == beg))
+     168*:  504:      if (b == lim && ((b > beg && b[-1] == '\n') || b == beg))
 branch  0 taken 1% (fallthrough)
 branch  1 taken 99%
 branch  2 taken 100% (fallthrough)
@@ -660,13 +660,13 @@ branch  5 taken 100%
 branch  6 never executed (fallthrough)
 branch  7 never executed
         -:  505:	break;
-      183:  506:      if (!out_invert)
+      167:  506:      if (!out_invert)
 branch  0 taken 96% (fallthrough)
 branch  1 taken 4%
         -:  507:	{
-      176:  508:	  prtext(b, endp, (int *) 0);
+      160:  508:	  prtext(b, endp, (int *) 0);
 call    0 returned 100%
-      176:  509:	  nlines += 1;
+      160:  509:	  nlines += 1;
         -:  510:	}
         7:  511:      else if (p < b)
 branch  0 taken 29% (fallthrough)
@@ -676,7 +676,7 @@ branch  1 taken 71%
 call    0 returned 100%
         2:  514:	  nlines += n;
         -:  515:	}
-      183:  516:      p = endp;
+      167:  516:      p = endp;
         -:  517:    }
        39:  518:  if (out_invert && p < lim)
 branch  0 taken 3% (fallthrough)
@@ -715,7 +715,7 @@ call    0 returned 100%
         -:  545:
         -:  546:  for (;;)
         -:  547:    {
-       83:  548:      if (fillbuf(save) < 0)
+       82:  548:      if (fillbuf(save) < 0)
 call    0 returned 100%
 branch  1 taken 1% (fallthrough)
 branch  2 taken 99%
@@ -724,38 +724,38 @@ branch  2 taken 99%
 call    0 returned 100%
         1:  551:	  return nlines;
         -:  552:	}
-       82:  553:      lastnl = bufbeg;
-       82:  554:      if (lastout)
-branch  0 taken 18% (fallthrough)
-branch  1 taken 82%
-       15:  555:	lastout = bufbeg;
-       82:  556:      if (buflim - bufbeg == save)
-branch  0 taken 51% (fallthrough)
-branch  1 taken 49%
+       81:  553:      lastnl = bufbeg;
+       81:  554:      if (lastout)
+branch  0 taken 17% (fallthrough)
+branch  1 taken 83%
+       14:  555:	lastout = bufbeg;
+       81:  556:      if (buflim - bufbeg == save)
+branch  0 taken 52% (fallthrough)
+branch  1 taken 48%
        42:  557:	break;
-       40:  558:      beg = bufbeg + save - residue;
-    65602:  559:      for (lim = buflim; lim > beg && lim[-1] != '\n'; --lim)
+       39:  558:      beg = bufbeg + save - residue;
+    32850:  559:      for (lim = buflim; lim > beg && lim[-1] != '\n'; --lim)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 1%
 branch  2 taken 100%
 branch  3 taken 1% (fallthrough)
         -:  560:	;
-       40:  561:      residue = buflim - lim;
-       40:  562:      if (beg < lim)
+       39:  561:      residue = buflim - lim;
+       39:  562:      if (beg < lim)
 branch  0 taken 90% (fallthrough)
 branch  1 taken 10%
         -:  563:	{
-       36:  564:	  nlines += grepbuf(beg, lim);
+       35:  564:	  nlines += grepbuf(beg, lim);
 call    0 returned 100%
-       36:  565:	  if (pending)
-branch  0 taken 8% (fallthrough)
-branch  1 taken 92%
+       35:  565:	  if (pending)
+branch  0 taken 9% (fallthrough)
+branch  1 taken 91%
         3:  566:	    prpending(lim);
 call    0 returned 100%
         -:  567:	}
-       40:  568:      i = 0;
-       40:  569:      beg = lim;
-       41:  570:      while (i < out_before && beg > bufbeg && beg != lastout)
+       39:  568:      i = 0;
+       39:  569:      beg = lim;
+       40:  570:      while (i < out_before && beg > bufbeg && beg != lastout)
 branch  0 taken 12% (fallthrough)
 branch  1 taken 88%
 branch  2 taken 80% (fallthrough)
@@ -772,27 +772,27 @@ branch  1 taken 0%
 branch  2 taken 80%
 branch  3 taken 20% (fallthrough)
         -:  576:	}
-       40:  577:      if (beg != lastout)
-branch  0 taken 62% (fallthrough)
-branch  1 taken 38%
+       39:  577:      if (beg != lastout)
+branch  0 taken 64% (fallthrough)
+branch  1 taken 36%
        25:  578:	lastout = 0;
-       40:  579:      save = residue + lim - beg;
-       40:  580:      totalcc += buflim - bufbeg - save;
-       40:  581:      if (out_line)
+       39:  579:      save = residue + lim - beg;
+       39:  580:      totalcc += buflim - bufbeg - save;
+       39:  581:      if (out_line)
 branch  0 taken 10% (fallthrough)
 branch  1 taken 90%
         4:  582:	nlscan(beg);
 call    0 returned 100%
         -:  583:    }
        42:  584:  if (residue)
-branch  0 taken 7% (fallthrough)
-branch  1 taken 93%
+branch  0 taken 10% (fallthrough)
+branch  1 taken 90%
         -:  585:    {
-        3:  586:      nlines += grepbuf(bufbeg + save - residue, buflim);
+        4:  586:      nlines += grepbuf(bufbeg + save - residue, buflim);
 call    0 returned 100%
-        3:  587:      if (pending)
-branch  0 taken 33% (fallthrough)
-branch  1 taken 67%
+        4:  587:      if (pending)
+branch  0 taken 25% (fallthrough)
+branch  1 taken 75%
         1:  588:	prpending(buflim);
 call    0 returned 100%
         -:  589:    }
@@ -837,7 +837,7 @@ branch  1 taken 79%
         -:  621:}  
         -:  622:
         -:  623:int
-function main called 30 returned 0% blocks executed 90%
+function main called 30 returned 0% blocks executed 89%
        30:  624:main(argc, argv)
         -:  625:     int argc;
         -:  626:     char *argv[];
@@ -866,25 +866,25 @@ branch  3 taken 0%
        30:  645:  suppress_errors = 0;
        30:  646:  matcher = NULL;
         -:  647:
-      101:  648:  while ((opt = getopt(argc, argv, "0123456789A:B:CEFGVX:bce:f:hiLlnqsvwxy"))
+       99:  648:  while ((opt = getopt(argc, argv, "0123456789A:B:CEFGVX:bce:f:hiLlnqsvwxy"))
 call    0 returned 100%
-      101:  649:	 != EOF)
+       99:  649:	 != EOF)
 branch  0 taken 70%
 branch  1 taken 30% (fallthrough)
-       71:  650:    switch (opt)
+       69:  650:    switch (opt)
 branch  0 taken 1%
 branch  1 taken 1%
 branch  2 taken 1%
 branch  3 taken 1%
 branch  4 taken 6%
-branch  5 taken 6%
-branch  6 taken 21%
+branch  5 taken 4%
+branch  6 taken 22%
 branch  7 taken 1%
 branch  8 taken 1%
 branch  9 taken 1%
 branch 10 taken 6%
 branch 11 taken 10%
-branch 12 taken 15%
+branch 12 taken 16%
 branch 13 taken 1%
 branch 14 taken 4%
 branch 15 taken 3%
@@ -894,7 +894,7 @@ branch 18 taken 1%
 branch 19 taken 1%
 branch 20 taken 1%
 branch 21 taken 4%
-branch 22 taken 6%
+branch 22 taken 4%
 branch 23 taken 0%
         -:  651:      {
         1:  652:      case '0':
@@ -939,16 +939,16 @@ branch  3 never executed
 call    0 never executed
         4:  681:	matcher = "posix-egrep";
         4:  682:	break;
-        4:  683:      case 'F':
-        4:  684:	if (matcher && strcmp(matcher, "fgrep") != 0)
-branch  0 taken 25% (fallthrough)
-branch  1 taken 75%
-branch  2 taken 0% (fallthrough)
-branch  3 taken 100%
+        3:  683:      case 'F':
+       3*:  684:	if (matcher && strcmp(matcher, "fgrep") != 0)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+branch  2 never executed (fallthrough)
+branch  3 never executed
     #####:  685:	  fatal("you may specify only one of -E, -F, or -G", 0);;
 call    0 never executed
-        4:  686:	matcher = "fgrep";
-        4:  687:	break;
+        3:  686:	matcher = "fgrep";
+        3:  687:	break;
        15:  688:      case 'G':
        15:  689:	if (matcher && strcmp(matcher, "grep") != 0)
 branch  0 taken 7% (fallthrough)
@@ -1073,9 +1073,9 @@ branch  3 taken 20%
         3:  770:      case 'w':
         3:  771:	match_words = 1;
         3:  772:	break;
-        4:  773:      case 'x':
-        4:  774:	match_lines = 1;
-        4:  775:	break;
+        3:  773:      case 'x':
+        3:  774:	match_lines = 1;
+        3:  775:	break;
     #####:  776:      default:
     #####:  777:	usage();
 call    0 never executed
@@ -1164,19 +1164,19 @@ call    0 returned 100%
 call    0 returned 100%
         -:  821:	      }
        41:  822:	    if (count)
-branch  0 taken 76% (fallthrough)
-branch  1 taken 24%
+branch  0 taken 73% (fallthrough)
+branch  1 taken 27%
         -:  823:	      {
-       31:  824:		status = 0;
-       31:  825:		if (list_files == 1)
+       30:  824:		status = 0;
+       30:  825:		if (list_files == 1)
 branch  0 taken 3% (fallthrough)
 branch  1 taken 97%
         1:  826:		  printf("%s\n", filename);
 call    0 returned 100%
         -:  827:	      }
-       10:  828:	    else if (list_files == -1)
-branch  0 taken 10% (fallthrough)
-branch  1 taken 90%
+       11:  828:	    else if (list_files == -1)
+branch  0 taken 9% (fallthrough)
+branch  1 taken 91%
         1:  829:	      printf("%s\n", filename);
 call    0 returned 100%
         -:  830:	  }
@@ -8920,36 +8920,36 @@ call    0 never executed
         -: 6714:}
         -: 6715:
         -: 6716:static ptr_t
-function xmalloc_1 called 6566 returned 100% blocks executed 75%
-     6566: 6717:xmalloc_1(n)
+function xmalloc_1 called 6576 returned 100% blocks executed 75%
+     6576: 6717:xmalloc_1(n)
         -: 6718:     size_t n;
         -: 6719:{
-     6566: 6720:  ptr_t r = malloc(n);
+     6576: 6720:  ptr_t r = malloc(n);
         -: 6721:
         -: 6722:  assert(n != 0);
-     6566: 6723:  if (!r)
+     6576: 6723:  if (!r)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 6724:    dfaerror("Memory exhausted");
 call    0 never executed
-     6566: 6725:  return r;
+     6576: 6725:  return r;
         -: 6726:}
         -: 6727:
         -: 6728:static ptr_t
-function xrealloc_1 called 600 returned 100% blocks executed 75%
-      600: 6729:xrealloc_1(p, n)
+function xrealloc_1 called 606 returned 100% blocks executed 75%
+      606: 6729:xrealloc_1(p, n)
         -: 6730:     ptr_t p;
         -: 6731:     size_t n;
         -: 6732:{
-      600: 6733:  ptr_t r = realloc(p, n);
+      606: 6733:  ptr_t r = realloc(p, n);
         -: 6734:
         -: 6735:  assert(n != 0);
-      600: 6736:  if (!r)
+      606: 6736:  if (!r)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 6737:    dfaerror("Memory exhausted");
 call    0 never executed
-      600: 6738:  return r;
+      606: 6738:  return r;
         -: 6739:}
         -: 6740:
         -: 6741:#define CALLOC(p, t, n) ((p) = (t *) xcalloc((n), sizeof (t)))
@@ -9007,88 +9007,88 @@ call    0 never executed
         -: 6793:/* Stuff pertaining to charclasses. */
         -: 6794:
         -: 6795:static int
-function tstbit called 9972 returned 100% blocks executed 100%
-     9972: 6796:tstbit(b, c)
+function tstbit called 9971 returned 100% blocks executed 100%
+     9971: 6796:tstbit(b, c)
         -: 6797:     int b;
         -: 6798:     charclass c;
         -: 6799:{
-     9972: 6800:  return c[b / INTBITS] & 1 << b % INTBITS;
+     9971: 6800:  return c[b / INTBITS] & 1 << b % INTBITS;
         -: 6801:}
         -: 6802:
         -: 6803:static void
-function setbit called 5072 returned 100% blocks executed 100%
-     5072: 6804:setbit(b, c)
+function setbit called 5313 returned 100% blocks executed 100%
+     5313: 6804:setbit(b, c)
         -: 6805:     int b;
         -: 6806:     charclass c;
         -: 6807:{
-     5072: 6808:  c[b / INTBITS] |= 1 << b % INTBITS;
-     5072: 6809:}
+     5313: 6808:  c[b / INTBITS] |= 1 << b % INTBITS;
+     5313: 6809:}
         -: 6810:
         -: 6811:static void
-function clrbit called 802 returned 100% blocks executed 100%
-      802: 6812:clrbit(b, c)
+function clrbit called 805 returned 100% blocks executed 100%
+      805: 6812:clrbit(b, c)
         -: 6813:     int b;
         -: 6814:     charclass c;
         -: 6815:{
-      802: 6816:  c[b / INTBITS] &= ~(1 << b % INTBITS);
-      802: 6817:}
+      805: 6816:  c[b / INTBITS] &= ~(1 << b % INTBITS);
+      805: 6817:}
         -: 6818:
         -: 6819:static void
-function copyset called 1594 returned 100% blocks executed 100%
-     1594: 6820:copyset(src, dst)
+function copyset called 1604 returned 100% blocks executed 100%
+     1604: 6820:copyset(src, dst)
         -: 6821:     charclass src;
         -: 6822:     charclass dst;
         -: 6823:{
         -: 6824:  int i;
         -: 6825:
-    14346: 6826:  for (i = 0; i < CHARCLASS_INTS; ++i)
+    14436: 6826:  for (i = 0; i < CHARCLASS_INTS; ++i)
 branch  0 taken 89%
 branch  1 taken 11% (fallthrough)
-    12752: 6827:    dst[i] = src[i];
-     1594: 6828:}
+    12832: 6827:    dst[i] = src[i];
+     1604: 6828:}
         -: 6829:
         -: 6830:static void
-function zeroset called 1307 returned 100% blocks executed 100%
-     1307: 6831:zeroset(s)
+function zeroset called 1305 returned 100% blocks executed 100%
+     1305: 6831:zeroset(s)
         -: 6832:     charclass s;
         -: 6833:{
         -: 6834:  int i;
         -: 6835:
-    11763: 6836:  for (i = 0; i < CHARCLASS_INTS; ++i)
+    11745: 6836:  for (i = 0; i < CHARCLASS_INTS; ++i)
 branch  0 taken 89%
 branch  1 taken 11% (fallthrough)
-    10456: 6837:    s[i] = 0;
-     1307: 6838:}
+    10440: 6837:    s[i] = 0;
+     1305: 6838:}
         -: 6839:
         -: 6840:static void
-function notset called 22 returned 100% blocks executed 100%
-       22: 6841:notset(s)
+function notset called 25 returned 100% blocks executed 100%
+       25: 6841:notset(s)
         -: 6842:     charclass s;
         -: 6843:{
         -: 6844:  int i;
         -: 6845:
-      198: 6846:  for (i = 0; i < CHARCLASS_INTS; ++i)
+      225: 6846:  for (i = 0; i < CHARCLASS_INTS; ++i)
 branch  0 taken 89%
 branch  1 taken 11% (fallthrough)
-      176: 6847:    s[i] = ~s[i];
-       22: 6848:}
+      200: 6847:    s[i] = ~s[i];
+       25: 6848:}
         -: 6849:
         -: 6850:static int
-function equal called 346 returned 100% blocks executed 100%
-      346: 6851:equal(s1, s2)
+function equal called 349 returned 100% blocks executed 100%
+      349: 6851:equal(s1, s2)
         -: 6852:     charclass s1;
         -: 6853:     charclass s2;
         -: 6854:{
         -: 6855:  int i;
         -: 6856:
-      865: 6857:  for (i = 0; i < CHARCLASS_INTS; ++i)
+      892: 6857:  for (i = 0; i < CHARCLASS_INTS; ++i)
 branch  0 taken 97%
 branch  1 taken 3% (fallthrough)
-      838: 6858:    if (s1[i] != s2[i])
-branch  0 taken 38% (fallthrough)
-branch  1 taken 62%
+      862: 6858:    if (s1[i] != s2[i])
+branch  0 taken 37% (fallthrough)
+branch  1 taken 63%
       319: 6859:      return 0;
-       27: 6860:  return 1;
+       30: 6860:  return 1;
         -: 6861:}
         -: 6862:
         -: 6863:/* A pointer to the current dfa is kept here during parsing. */
@@ -9096,20 +9096,20 @@ branch  1 taken 62%
         -: 6865:
         -: 6866:/* Find the index of charclass s in dfa->charclasses, or allocate a new charclass. */
         -: 6867:static int
-function charclass_index called 99 returned 100% blocks executed 100%
-       99: 6868:charclass_index(s)
+function charclass_index called 102 returned 100% blocks executed 100%
+      102: 6868:charclass_index(s)
         -: 6869:     charclass s;
         -: 6870:{
         -: 6871:  int i;
         -: 6872:
-      418: 6873:  for (i = 0; i < dfa->cindex; ++i)
+      421: 6873:  for (i = 0; i < dfa->cindex; ++i)
 branch  0 taken 83%
 branch  1 taken 17% (fallthrough)
-      346: 6874:    if (equal(s, dfa->charclasses[i]))
+      349: 6874:    if (equal(s, dfa->charclasses[i]))
 call    0 returned 100%
-branch  1 taken 8% (fallthrough)
-branch  2 taken 92%
-       27: 6875:      return i;
+branch  1 taken 9% (fallthrough)
+branch  2 taken 91%
+       30: 6875:      return i;
        91: 6876:  REALLOC_IF_NECESSARY(dfa->charclasses, charclass, dfa->calloc, dfa->cindex);
 branch  0 taken 26% (fallthrough)
 branch  1 taken 74%
@@ -9228,11 +9228,11 @@ branch  1 taken 100%
         -: 6970:}
         -: 6971:
         -: 6972:static token
-function lex called 3096 returned 100% blocks executed 79%
-     3096: 6973:lex()
+function lex called 3112 returned 100% blocks executed 79%
+     3112: 6973:lex()
         -: 6974:{
         -: 6975:  token c, c1, c2;
-     3096: 6976:  int backslash = 0, invert;
+     3112: 6976:  int backslash = 0, invert;
         -: 6977:  charclass ccl;
         -: 6978:  int i;
         -: 6979:
@@ -9242,14 +9242,14 @@ function lex called 3096 returned 100% blocks executed 79%
         -: 6983:     main switch inside the backslash case.  On the minus side,
         -: 6984:     it means that just about every case begins with
         -: 6985:     "if (backslash) ...".  */
-     3814: 6986:  for (i = 0; i < 2; ++i)
+     3835: 6986:  for (i = 0; i < 2; ++i)
 branch  0 taken 100%
 branch  1 taken 0% (fallthrough)
         -: 6987:    {
-     3814: 6988:      FETCH(c, 0);
+     3835: 6988:      FETCH(c, 0);
 branch  0 taken 1% (fallthrough)
 branch  1 taken 99%
-     3785: 6989:      switch (c)
+     3806: 6989:      switch (c)
 branch  0 taken 19%
 branch  1 taken 1%
 branch  2 taken 1%
@@ -9271,67 +9271,67 @@ branch 17 taken 1%
 branch 18 taken 1%
 branch 19 taken 51%
         -: 6990:	{
-      719: 6991:	case '\\':
-      719: 6992:	  if (backslash)
+      724: 6991:	case '\\':
+      724: 6992:	  if (backslash)
 branch  0 taken 1% (fallthrough)
 branch  1 taken 100%
         1: 6993:	    goto normal_char;
-      718: 6994:	  if (lexleft == 0)
+      723: 6994:	  if (lexleft == 0)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 6995:	    dfaerror("Unfinished \\ escape");
 call    0 never executed
-      718: 6996:	  backslash = 1;
-      718: 6997:	  break;
+      723: 6996:	  backslash = 1;
+      723: 6997:	  break;
         -: 6998:
-       49: 6999:	case '^':
-       49: 7000:	  if (backslash)
+       50: 6999:	case '^':
+       50: 7000:	  if (backslash)
 branch  0 taken 2% (fallthrough)
 branch  1 taken 98%
         1: 7001:	    goto normal_char;
-       48: 7002:	  if (syntax_bits & RE_CONTEXT_INDEP_ANCHORS
-branch  0 taken 81% (fallthrough)
-branch  1 taken 19%
-       39: 7003:	      || lasttok == END
-branch  0 taken 74% (fallthrough)
-branch  1 taken 26%
-       29: 7004:	      || lasttok == LPAREN
-branch  0 taken 93% (fallthrough)
-branch  1 taken 7%
+       49: 7002:	  if (syntax_bits & RE_CONTEXT_INDEP_ANCHORS
+branch  0 taken 82% (fallthrough)
+branch  1 taken 18%
+       40: 7003:	      || lasttok == END
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+       30: 7004:	      || lasttok == LPAREN
+branch  0 taken 90% (fallthrough)
+branch  1 taken 10%
        27: 7005:	      || lasttok == OR)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-       48: 7006:	    return lasttok = BEGLINE;
+       49: 7006:	    return lasttok = BEGLINE;
     #####: 7007:	  goto normal_char;
         -: 7008:
-       49: 7009:	case '$':
-       49: 7010:	  if (backslash)
+       50: 7009:	case '$':
+       50: 7010:	  if (backslash)
 branch  0 taken 2% (fallthrough)
 branch  1 taken 98%
         1: 7011:	    goto normal_char;
-       48: 7012:	  if (syntax_bits & RE_CONTEXT_INDEP_ANCHORS
-branch  0 taken 81% (fallthrough)
-branch  1 taken 19%
-       39: 7013:	      || lexleft == 0
-branch  0 taken 74% (fallthrough)
-branch  1 taken 26%
-      58*: 7014:	      || (syntax_bits & RE_NO_BK_PARENS
+       49: 7012:	  if (syntax_bits & RE_CONTEXT_INDEP_ANCHORS
+branch  0 taken 82% (fallthrough)
+branch  1 taken 18%
+       40: 7013:	      || lexleft == 0
+branch  0 taken 78% (fallthrough)
+branch  1 taken 22%
+      62*: 7014:	      || (syntax_bits & RE_NO_BK_PARENS
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
 branch  2 never executed
 branch  3 never executed
-branch  4 taken 97% (fallthrough)
-branch  5 taken 3%
+branch  4 taken 90% (fallthrough)
+branch  5 taken 10%
     #####: 7015:		  ? lexleft > 0 && *lexptr == ')'
 branch  0 never executed (fallthrough)
 branch  1 never executed
 branch  2 never executed (fallthrough)
 branch  3 never executed
-       29: 7016:		  : lexleft > 1 && lexptr[0] == '\\' && lexptr[1] == ')')
+       31: 7016:		  : lexleft > 1 && lexptr[0] == '\\' && lexptr[1] == ')')
 branch  0 taken 97% (fallthrough)
 branch  1 taken 3%
-branch  2 taken 4% (fallthrough)
-branch  3 taken 96%
+branch  2 taken 10% (fallthrough)
+branch  3 taken 90%
 branch  4 taken 100% (fallthrough)
 branch  5 taken 0%
       56*: 7017:	      || (syntax_bits & RE_NO_BK_VBAR
@@ -9361,7 +9361,7 @@ branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
 branch  2 taken 96% (fallthrough)
 branch  3 taken 4%
-       47: 7022:	    return lasttok = ENDLINE;
+       48: 7022:	    return lasttok = ENDLINE;
         1: 7023:	  goto normal_char;
         -: 7024:
        38: 7025:	case '1':
@@ -9540,17 +9540,17 @@ call    0 never executed
        17: 7129:	  laststart = 0;
        17: 7130:	  return lasttok = REPMN;
         -: 7131:
-       41: 7132:	case '|':
-       41: 7133:	  if (syntax_bits & RE_LIMITED_OPS)
+       44: 7132:	case '|':
+       44: 7133:	  if (syntax_bits & RE_LIMITED_OPS)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 7134:	    goto normal_char;
-       41: 7135:	  if (backslash != ((syntax_bits & RE_NO_BK_VBAR) == 0))
+       44: 7135:	  if (backslash != ((syntax_bits & RE_NO_BK_VBAR) == 0))
 branch  0 taken 7% (fallthrough)
 branch  1 taken 93%
         3: 7136:	    goto normal_char;
-       38: 7137:	  laststart = 1;
-       38: 7138:	  return lasttok = OR;
+       41: 7137:	  laststart = 1;
+       41: 7138:	  return lasttok = OR;
         -: 7139:
        85: 7140:	case '\n':
        85: 7141:	  if (syntax_bits & RE_LIMITED_OPS
@@ -9566,29 +9566,29 @@ branch  1 taken 100%
        85: 7145:	  laststart = 1;
        85: 7146:	  return lasttok = OR;
         -: 7147:
-      322: 7148:	case '(':
-      322: 7149:	  if (backslash != ((syntax_bits & RE_NO_BK_PARENS) == 0))
+      326: 7148:	case '(':
+      326: 7149:	  if (backslash != ((syntax_bits & RE_NO_BK_PARENS) == 0))
 branch  0 taken 1% (fallthrough)
 branch  1 taken 99%
         3: 7150:	    goto normal_char;
-      319: 7151:	  ++parens;
-      319: 7152:	  laststart = 1;
-      319: 7153:	  return lasttok = LPAREN;
+      323: 7151:	  ++parens;
+      323: 7152:	  laststart = 1;
+      323: 7153:	  return lasttok = LPAREN;
         -: 7154:
-      322: 7155:	case ')':
-      322: 7156:	  if (backslash != ((syntax_bits & RE_NO_BK_PARENS) == 0))
+      326: 7155:	case ')':
+      326: 7156:	  if (backslash != ((syntax_bits & RE_NO_BK_PARENS) == 0))
 branch  0 taken 1% (fallthrough)
 branch  1 taken 99%
         3: 7157:	    goto normal_char;
-     319*: 7158:	  if (parens == 0 && syntax_bits & RE_UNMATCHED_RIGHT_PAREN_ORD)
+     323*: 7158:	  if (parens == 0 && syntax_bits & RE_UNMATCHED_RIGHT_PAREN_ORD)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
 branch  2 never executed (fallthrough)
 branch  3 never executed
     #####: 7159:	    goto normal_char;
-      319: 7160:	  --parens;
-      319: 7161:	  laststart = 0;
-      319: 7162:	  return lasttok = RPAREN;
+      323: 7160:	  --parens;
+      323: 7161:	  laststart = 0;
+      323: 7162:	  return lasttok = RPAREN;
         -: 7163:
        13: 7164:	case '.':
        13: 7165:	  if (backslash)
@@ -9638,26 +9638,26 @@ call    0 returned 100%
        10: 7187:	  return lasttok = CSET + charclass_index(ccl);
 call    0 returned 100%
         -: 7188:	
-       51: 7189:	case '[':
-       51: 7190:	  if (backslash)
+       54: 7189:	case '[':
+       54: 7190:	  if (backslash)
 branch  0 taken 2% (fallthrough)
 branch  1 taken 98%
         1: 7191:	    goto normal_char;
-       50: 7192:	  zeroset(ccl);
+       53: 7192:	  zeroset(ccl);
 call    0 returned 100%
-      50*: 7193:	  FETCH(c, "Unbalanced [");
+      53*: 7193:	  FETCH(c, "Unbalanced [");
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
 call    2 never executed
-       50: 7194:	  if (c == '^')
-branch  0 taken 14% (fallthrough)
-branch  1 taken 86%
+       53: 7194:	  if (c == '^')
+branch  0 taken 19% (fallthrough)
+branch  1 taken 81%
         -: 7195:	    {
-       7*: 7196:	      FETCH(c, "Unbalanced [");
+      10*: 7196:	      FETCH(c, "Unbalanced [");
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
 call    2 never executed
-        7: 7197:	      invert = 1;
+       10: 7197:	      invert = 1;
         -: 7198:	    }
         -: 7199:	  else
        43: 7200:	    invert = 0;
@@ -9669,9 +9669,9 @@ call    2 never executed
         -: 7206:		 characters.  We can do this because we assume
         -: 7207:		 regex has checked for syntax errors before
         -: 7208:		 dfa is ever called. */
-       80: 7209:	      if (c == '[' && (syntax_bits & RE_CHAR_CLASSES))
-branch  0 taken 32% (fallthrough)
-branch  1 taken 68%
+       92: 7209:	      if (c == '[' && (syntax_bits & RE_CHAR_CLASSES))
+branch  0 taken 28% (fallthrough)
+branch  1 taken 72%
 branch  2 taken 100% (fallthrough)
 branch  3 taken 0%
       164: 7210:		for (c1 = 0; prednames[c1].name; ++c1)
@@ -9699,7 +9699,7 @@ branch  1 taken 100%
 call    2 never executed
        24: 7219:		      goto skip;
         -: 7220:		    }
-      56*: 7221:	      if (c == '\\' && (syntax_bits & RE_BACKSLASH_ESCAPE_IN_LISTS))
+      68*: 7221:	      if (c == '\\' && (syntax_bits & RE_BACKSLASH_ESCAPE_IN_LISTS))
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
 branch  2 never executed (fallthrough)
@@ -9708,21 +9708,21 @@ branch  3 never executed
 branch  0 never executed (fallthrough)
 branch  1 never executed
 call    2 never executed
-      56*: 7223:	      FETCH(c1, "Unbalanced [");
+      68*: 7223:	      FETCH(c1, "Unbalanced [");
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
 call    2 never executed
-       56: 7224:	      if (c1 == '-')
-branch  0 taken 41% (fallthrough)
-branch  1 taken 59%
+       68: 7224:	      if (c1 == '-')
+branch  0 taken 47% (fallthrough)
+branch  1 taken 53%
         -: 7225:		{
-      23*: 7226:		  FETCH(c2, "Unbalanced [");
+      32*: 7226:		  FETCH(c2, "Unbalanced [");
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
 call    2 never executed
-       23: 7227:		  if (c2 == ']')
-branch  0 taken 13% (fallthrough)
-branch  1 taken 87%
+       32: 7227:		  if (c2 == ']')
+branch  0 taken 9% (fallthrough)
+branch  1 taken 91%
         -: 7228:		    {
         -: 7229:		      /* In the case [x-], the - is an ordinary hyphen,
         -: 7230:			 which is left in c1, the lookahead character. */
@@ -9732,7 +9732,7 @@ branch  1 taken 87%
         -: 7234:		    }
         -: 7235:		  else
         -: 7236:		    {
-       20: 7237:		      if (c2 == '\\'
+       29: 7237:		      if (c2 == '\\'
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 7238:			  && (syntax_bits & RE_BACKSLASH_ESCAPE_IN_LISTS))
@@ -9742,55 +9742,55 @@ branch  1 never executed
 branch  0 never executed (fallthrough)
 branch  1 never executed
 call    2 never executed
-      20*: 7240:		      FETCH(c1, "Unbalanced [");
+      29*: 7240:		      FETCH(c1, "Unbalanced [");
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
 call    2 never executed
         -: 7241:		    }
         -: 7242:		}
         -: 7243:	      else
-       33: 7244:		c2 = c;
-      469: 7245:	      while (c <= c2)
-branch  0 taken 88%
-branch  1 taken 12% (fallthrough)
+       36: 7244:		c2 = c;
+      670: 7245:	      while (c <= c2)
+branch  0 taken 90%
+branch  1 taken 10% (fallthrough)
         -: 7246:		{
-      413: 7247:		  setbit(c, ccl);
+      602: 7247:		  setbit(c, ccl);
 call    0 returned 100%
-      413: 7248:		  if (case_fold)
-branch  0 taken 37% (fallthrough)
-branch  1 taken 63%
-      153: 7249:		    if (ISUPPER(c))
-branch  0 taken 51% (fallthrough)
-branch  1 taken 49%
-       78: 7250:		      setbit(tolower(c), ccl);
+      602: 7248:		  if (case_fold)
+branch  0 taken 36% (fallthrough)
+branch  1 taken 64%
+      216: 7249:		    if (ISUPPER(c))
+branch  0 taken 48% (fallthrough)
+branch  1 taken 52%
+      104: 7250:		      setbit(tolower(c), ccl);
 call    0 returned 100%
-       75: 7251:		    else if (ISLOWER(c))
-branch  0 taken 79% (fallthrough)
-branch  1 taken 21%
-       59: 7252:		      setbit(toupper(c), ccl);
+      112: 7251:		    else if (ISLOWER(c))
+branch  0 taken 76% (fallthrough)
+branch  1 taken 24%
+       85: 7252:		      setbit(toupper(c), ccl);
 call    0 returned 100%
-      413: 7253:		  ++c;
+      602: 7253:		  ++c;
         -: 7254:		}
-       56: 7255:	    skip:
+       68: 7255:	    skip:
         -: 7256:	      ;
         -: 7257:	    }
-       80: 7258:	  while ((c = c1) != ']');
-branch  0 taken 38%
-branch  1 taken 62% (fallthrough)
-       50: 7259:	  if (invert)
-branch  0 taken 14% (fallthrough)
-branch  1 taken 86%
+       92: 7258:	  while ((c = c1) != ']');
+branch  0 taken 42%
+branch  1 taken 58% (fallthrough)
+       53: 7259:	  if (invert)
+branch  0 taken 19% (fallthrough)
+branch  1 taken 81%
         -: 7260:	    {
-        7: 7261:	      notset(ccl);
+       10: 7261:	      notset(ccl);
 call    0 returned 100%
-        7: 7262:	      if (syntax_bits & RE_HAT_LISTS_NOT_NEWLINE)
+       10: 7262:	      if (syntax_bits & RE_HAT_LISTS_NOT_NEWLINE)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-        7: 7263:		clrbit('\n', ccl);
+       10: 7263:		clrbit('\n', ccl);
 call    0 returned 100%
         -: 7264:	    }
-       50: 7265:	  laststart = 0;
-       50: 7266:	  return lasttok = CSET + charclass_index(ccl);
+       53: 7265:	  laststart = 0;
+       53: 7266:	  return lasttok = CSET + charclass_index(ccl);
 call    0 returned 100%
         -: 7267:
         -: 7268:	default:
@@ -9839,19 +9839,19 @@ call    0 never executed
         -: 7299:/* Add the given token to the parse tree, maintaining the depth count and
         -: 7300:   updating the maximum depth if necessary. */
         -: 7301:static void
-function addtok called 4896 returned 100% blocks executed 100%
-     4896: 7302:addtok(t)
+function addtok called 4906 returned 100% blocks executed 100%
+     4906: 7302:addtok(t)
         -: 7303:     token t;
         -: 7304:{
-     5026: 7305:  REALLOC_IF_NECESSARY(dfa->tokens, token, dfa->talloc, dfa->tindex);
+     5036: 7305:  REALLOC_IF_NECESSARY(dfa->tokens, token, dfa->talloc, dfa->tindex);
 branch  0 taken 3% (fallthrough)
 branch  1 taken 97%
 branch  2 taken 50%
 branch  3 taken 50% (fallthrough)
 call    4 returned 100%
-     4896: 7306:  dfa->tokens[dfa->tindex++] = t;
+     4906: 7306:  dfa->tokens[dfa->tindex++] = t;
         -: 7307:
-     4896: 7308:  switch (t)
+     4906: 7308:  switch (t)
 branch  0 taken 3%
 branch  1 taken 48%
 branch  2 taken 49%
@@ -9862,23 +9862,23 @@ branch  3 taken 1%
         -: 7312:    case PLUS:
       123: 7313:      break;
         -: 7314:
-     2372: 7315:    case CAT:
+     2377: 7315:    case CAT:
         -: 7316:    case OR:
         -: 7317:    case ORTOP:
-     2372: 7318:      --depth;
-     2372: 7319:      break;
+     2377: 7318:      --depth;
+     2377: 7319:      break;
         -: 7320:
-     2400: 7321:    default:
-     2400: 7322:      ++dfa->nleaves;
-     2401: 7323:    case EMPTY:
-     2401: 7324:      ++depth;
-     2401: 7325:      break;
+     2405: 7321:    default:
+     2405: 7322:      ++dfa->nleaves;
+     2406: 7323:    case EMPTY:
+     2406: 7324:      ++depth;
+     2406: 7325:      break;
         -: 7326:    }
-     4896: 7327:  if (depth > dfa->depth)
+     4906: 7327:  if (depth > dfa->depth)
 branch  0 taken 2% (fallthrough)
 branch  1 taken 98%
-       88: 7328:    dfa->depth = depth;
-     4896: 7329:}
+       89: 7328:    dfa->depth = depth;
+     4906: 7329:}
         -: 7330:
         -: 7331:/* The grammar understood by the parser is as follows.
         -: 7332:
@@ -9917,26 +9917,26 @@ branch  1 taken 98%
         -: 7365:#endif
         -: 7366:
         -: 7367:static void
-function atom called 2574 returned 100% blocks executed 95%
-     2574: 7368:atom()
+function atom called 2583 returned 100% blocks executed 95%
+     2583: 7368:atom()
         -: 7369:{
-     2574: 7370:  if ((tok >= 0 && tok < NOTCHAR) || tok >= CSET || tok == BACKREF
+     2583: 7370:  if ((tok >= 0 && tok < NOTCHAR) || tok >= CSET || tok == BACKREF
 branch  0 taken 100% (fallthrough)
 branch  1 taken 1%
-branch  2 taken 22% (fallthrough)
-branch  3 taken 78%
+branch  2 taken 23% (fallthrough)
+branch  3 taken 77%
 branch  4 taken 83% (fallthrough)
 branch  5 taken 17%
 branch  6 taken 92% (fallthrough)
 branch  7 taken 8%
-      438: 7371:      || tok == BEGLINE || tok == ENDLINE || tok == BEGWORD
+      444: 7371:      || tok == BEGLINE || tok == ENDLINE || tok == BEGWORD
 branch  0 taken 89% (fallthrough)
 branch  1 taken 11%
 branch  2 taken 88% (fallthrough)
 branch  3 taken 12%
 branch  4 taken 98% (fallthrough)
 branch  5 taken 2%
-      337: 7372:      || tok == ENDWORD || tok == LIMWORD || tok == NOTLIMWORD)
+      341: 7372:      || tok == ENDWORD || tok == LIMWORD || tok == NOTLIMWORD)
 branch  0 taken 98% (fallthrough)
 branch  1 taken 2%
 branch  2 taken 98% (fallthrough)
@@ -9944,31 +9944,31 @@ branch  3 taken 2%
 branch  4 taken 2% (fallthrough)
 branch  5 taken 98%
         -: 7373:    {
-     2254: 7374:      addtok(tok);
+     2259: 7374:      addtok(tok);
 call    0 returned 100%
-     2254: 7375:      tok = lex();
+     2259: 7375:      tok = lex();
 call    0 returned 100%
         -: 7376:    }
-      320: 7377:  else if (tok == LPAREN)
+      324: 7377:  else if (tok == LPAREN)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 1%
         -: 7378:    {
-      319: 7379:      tok = lex();
+      323: 7379:      tok = lex();
 call    0 returned 100%
-      319: 7380:      regexp(0);
+      323: 7380:      regexp(0);
 call    0 returned 100%
-      319: 7381:      if (tok != RPAREN)
+      323: 7381:      if (tok != RPAREN)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 7382:	dfaerror("Unbalanced (");
 call    0 never executed
-      319: 7383:      tok = lex();
+      323: 7383:      tok = lex();
 call    0 returned 100%
         -: 7384:    }
         -: 7385:  else
         1: 7386:    addtok(EMPTY);
 call    0 returned 100%
-     2574: 7387:}
+     2583: 7387:}
         -: 7388:
         -: 7389:/* Return the number of tokens in the given subexpression. */
         -: 7390:static int
@@ -10015,14 +10015,14 @@ call    0 returned 100%
        87: 7420:}
         -: 7421:
         -: 7422:static void
-function closure called 2574 returned 100% blocks executed 100%
-     2574: 7423:closure()
+function closure called 2583 returned 100% blocks executed 100%
+     2583: 7423:closure()
         -: 7424:{
         -: 7425:  int tindex, ntokens, i;
         -: 7426:
-     2574: 7427:  atom();
+     2583: 7427:  atom();
 call    0 returned 100%
-     2626: 7428:  while (tok == QMARK || tok == STAR || tok == PLUS || tok == REPMN)
+     2635: 7428:  while (tok == QMARK || tok == STAR || tok == PLUS || tok == REPMN)
 branch  0 taken 1%
 branch  1 taken 100% (fallthrough)
 branch  2 taken 1%
@@ -10078,54 +10078,54 @@ call    0 returned 100%
        35: 7453:	tok = lex();
 call    0 returned 100%
         -: 7454:      }
-     2574: 7455:}
+     2583: 7455:}
         -: 7456:
         -: 7457:static void
-function branch called 471 returned 100% blocks executed 100%
-      471: 7458:branch()
+function branch called 478 returned 100% blocks executed 100%
+      478: 7458:branch()
         -: 7459:{
-      471: 7460:  closure();
+      478: 7460:  closure();
 call    0 returned 100%
-     2574: 7461:  while (tok != RPAREN && tok != OR && tok >= 0)
-branch  0 taken 88% (fallthrough)
-branch  1 taken 12%
-branch  2 taken 95% (fallthrough)
-branch  3 taken 5%
+     2583: 7461:  while (tok != RPAREN && tok != OR && tok >= 0)
+branch  0 taken 87% (fallthrough)
+branch  1 taken 13%
+branch  2 taken 94% (fallthrough)
+branch  3 taken 6%
 branch  4 taken 99%
 branch  5 taken 1% (fallthrough)
         -: 7462:    {
-     2103: 7463:      closure();
+     2105: 7463:      closure();
 call    0 returned 100%
-     2103: 7464:      addtok(CAT);
+     2105: 7464:      addtok(CAT);
 call    0 returned 100%
         -: 7465:    }
-      471: 7466:}
+      478: 7466:}
         -: 7467:
         -: 7468:static void
-function regexp called 348 returned 100% blocks executed 100%
-      348: 7469:regexp(toplevel)
+function regexp called 352 returned 100% blocks executed 100%
+      352: 7469:regexp(toplevel)
         -: 7470:     int toplevel;
         -: 7471:{
-      348: 7472:  branch();
+      352: 7472:  branch();
 call    0 returned 100%
-      471: 7473:  while (tok == OR)
+      478: 7473:  while (tok == OR)
 branch  0 taken 26%
 branch  1 taken 74% (fallthrough)
         -: 7474:    {
-      123: 7475:      tok = lex();
+      126: 7475:      tok = lex();
 call    0 returned 100%
-      123: 7476:      branch();
+      126: 7476:      branch();
 call    0 returned 100%
-      123: 7477:      if (toplevel)
-branch  0 taken 69% (fallthrough)
-branch  1 taken 31%
+      126: 7477:      if (toplevel)
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
        85: 7478:	addtok(ORTOP);
 call    0 returned 100%
         -: 7479:      else
-       38: 7480:	addtok(OR);
+       41: 7480:	addtok(OR);
 call    0 returned 100%
         -: 7481:    }
-      348: 7482:}
+      352: 7482:}
         -: 7483:
         -: 7484:/* Main entry point for the parser.  S is a string to be parsed, len is the
         -: 7485:   length of the string, so s can include NUL characters.  D is a pointer to
@@ -10182,81 +10182,81 @@ call    0 never executed
         -: 7522:
         -: 7523:/* Copy one set to another; the destination must be large enough. */
         -: 7524:static void
-function copy called 7429 returned 100% blocks executed 100%
-     7429: 7525:copy(src, dst)
+function copy called 7446 returned 100% blocks executed 100%
+     7446: 7525:copy(src, dst)
         -: 7526:     position_set *src;
         -: 7527:     position_set *dst;
         -: 7528:{
         -: 7529:  int i;
         -: 7530:
-    23978: 7531:  for (i = 0; i < src->nelem; ++i)
+    24108: 7531:  for (i = 0; i < src->nelem; ++i)
 branch  0 taken 69%
 branch  1 taken 31% (fallthrough)
-    16549: 7532:    dst->elems[i] = src->elems[i];
-     7429: 7533:  dst->nelem = src->nelem;
-     7429: 7534:}
+    16662: 7532:    dst->elems[i] = src->elems[i];
+     7446: 7533:  dst->nelem = src->nelem;
+     7446: 7534:}
         -: 7535:
         -: 7536:/* Insert a position in a set.  Position sets are maintained in sorted
         -: 7537:   order according to index.  If position already exists in the set with
         -: 7538:   the same index then their constraints are logically or'd together.
         -: 7539:   S->elems must point to an array large enough to hold the resulting set. */
         -: 7540:static void
-function insert called 39665 returned 100% blocks executed 100%
-    39665: 7541:insert(p, s)
+function insert called 40055 returned 100% blocks executed 100%
+    40055: 7541:insert(p, s)
         -: 7542:     position p;
         -: 7543:     position_set *s;
         -: 7544:{
         -: 7545:  int i;
         -: 7546:  position t1, t2;
         -: 7547:
-   637575: 7548:  for (i = 0; i < s->nelem && p.index < s->elems[i].index; ++i)
+   643236: 7548:  for (i = 0; i < s->nelem && p.index < s->elems[i].index; ++i)
 branch  0 taken 95% (fallthrough)
 branch  1 taken 5%
 branch  2 taken 98%
 branch  3 taken 2% (fallthrough)
         -: 7549:    ;
-    39665: 7550:  if (i < s->nelem && p.index == s->elems[i].index)
+    40055: 7550:  if (i < s->nelem && p.index == s->elems[i].index)
 branch  0 taken 24% (fallthrough)
 branch  1 taken 76%
-branch  2 taken 44% (fallthrough)
-branch  3 taken 56%
-     4097: 7551:    s->elems[i].constraint |= p.constraint;
+branch  2 taken 46% (fallthrough)
+branch  3 taken 54%
+     4393: 7551:    s->elems[i].constraint |= p.constraint;
         -: 7552:  else
         -: 7553:    {
-    35568: 7554:      t1 = p;
-    35568: 7555:      ++s->nelem;
-    77986: 7556:      while (i < s->nelem)
+    35662: 7554:      t1 = p;
+    35662: 7555:      ++s->nelem;
+    78218: 7556:      while (i < s->nelem)
 branch  0 taken 54%
 branch  1 taken 46% (fallthrough)
         -: 7557:	{
-    42418: 7558:	  t2 = s->elems[i];
-    42418: 7559:	  s->elems[i++] = t1;
-    42418: 7560:	  t1 = t2;
+    42556: 7558:	  t2 = s->elems[i];
+    42556: 7559:	  s->elems[i++] = t1;
+    42556: 7560:	  t1 = t2;
         -: 7561:	}
         -: 7562:    }
-    39665: 7563:}
+    40055: 7563:}
         -: 7564:
         -: 7565:/* Merge two sets of positions into a third.  The result is exactly as if
         -: 7566:   the positions of both sets were inserted into an initially empty set. */
         -: 7567:static void
-function merge called 2678 returned 100% blocks executed 94%
-     2678: 7568:merge(s1, s2, m)
+function merge called 2682 returned 100% blocks executed 94%
+     2682: 7568:merge(s1, s2, m)
         -: 7569:     position_set *s1;
         -: 7570:     position_set *s2;
         -: 7571:     position_set *m;
         -: 7572:{
-     2678: 7573:  int i = 0, j = 0;
+     2682: 7573:  int i = 0, j = 0;
         -: 7574:
-     2678: 7575:  m->nelem = 0;
-     3114: 7576:  while (i < s1->nelem && j < s2->nelem)
+     2682: 7575:  m->nelem = 0;
+     3134: 7576:  while (i < s1->nelem && j < s2->nelem)
 branch  0 taken 87% (fallthrough)
 branch  1 taken 13%
-branch  2 taken 16%
-branch  3 taken 84% (fallthrough)
-      436: 7577:    if (s1->elems[i].index > s2->elems[j].index)
+branch  2 taken 17%
+branch  3 taken 83% (fallthrough)
+      452: 7577:    if (s1->elems[i].index > s2->elems[j].index)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 1%
-      435: 7578:      m->elems[m->nelem++] = s1->elems[i++];
+      451: 7578:      m->elems[m->nelem++] = s1->elems[i++];
         1: 7579:    else if (s1->elems[i].index < s2->elems[j].index)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
@@ -10266,40 +10266,40 @@ branch  1 taken 100%
         1: 7583:	m->elems[m->nelem] = s1->elems[i++];
         1: 7584:	m->elems[m->nelem++].constraint |= s2->elems[j++].constraint;
         -: 7585:      }
-     5125: 7586:  while (i < s1->nelem)
+     5134: 7586:  while (i < s1->nelem)
 branch  0 taken 48%
 branch  1 taken 52% (fallthrough)
-     2447: 7587:    m->elems[m->nelem++] = s1->elems[i++];
-     5168: 7588:  while (j < s2->nelem)
+     2452: 7587:    m->elems[m->nelem++] = s1->elems[i++];
+     5172: 7588:  while (j < s2->nelem)
 branch  0 taken 48%
 branch  1 taken 52% (fallthrough)
      2490: 7589:    m->elems[m->nelem++] = s2->elems[j++];
-     2678: 7590:}
+     2682: 7590:}
         -: 7591:
         -: 7592:/* Delete a position from a set. */
         -: 7593:static void
-function delete called 187 returned 100% blocks executed 100%
-      187: 7594:delete(p, s)
+function delete called 190 returned 100% blocks executed 100%
+      190: 7594:delete(p, s)
         -: 7595:     position p;
         -: 7596:     position_set *s;
         -: 7597:{
         -: 7598:  int i;
         -: 7599:
-      643: 7600:  for (i = 0; i < s->nelem; ++i)
+      646: 7600:  for (i = 0; i < s->nelem; ++i)
 branch  0 taken 100%
 branch  1 taken 0% (fallthrough)
-      643: 7601:    if (p.index == s->elems[i].index)
+      646: 7601:    if (p.index == s->elems[i].index)
 branch  0 taken 29% (fallthrough)
 branch  1 taken 71%
-      187: 7602:      break;
-      187: 7603:  if (i < s->nelem)
+      190: 7602:      break;
+      190: 7603:  if (i < s->nelem)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-      662: 7604:    for (--s->nelem; i < s->nelem; ++i)
+      683: 7604:    for (--s->nelem; i < s->nelem; ++i)
 branch  0 taken 72%
 branch  1 taken 28% (fallthrough)
-      475: 7605:      s->elems[i] = s->elems[i + 1];
-      187: 7606:}
+      493: 7605:      s->elems[i] = s->elems[i + 1];
+      190: 7606:}
         -: 7607:
         -: 7608:/* Find the index of the state corresponding to the given position set with
         -: 7609:   the given preceding context, or create a new state if there is no such
@@ -10320,79 +10320,79 @@ function state_index called 1456 returned 100% blocks executed 86%
      1456: 7623:  newline = newline ? 1 : 0;
      1456: 7624:  letter = letter ? 1 : 0;
         -: 7625:
-    41057: 7626:  for (i = 0; i < s->nelem; ++i)
+    41153: 7626:  for (i = 0; i < s->nelem; ++i)
 branch  0 taken 96%
 branch  1 taken 4% (fallthrough)
-    39601: 7627:    hash ^= s->elems[i].index + s->elems[i].constraint;
+    39697: 7627:    hash ^= s->elems[i].index + s->elems[i].constraint;
         -: 7628:
         -: 7629:  /* Try to find a state that exactly matches the proposed one. */
-    10845: 7630:  for (i = 0; i < d->sindex; ++i)
+    11001: 7630:  for (i = 0; i < d->sindex; ++i)
 branch  0 taken 98%
 branch  1 taken 2% (fallthrough)
         -: 7631:    {
-    10638: 7632:      if (hash != d->states[i].hash || s->nelem != d->states[i].elems.nelem
-branch  0 taken 14% (fallthrough)
-branch  1 taken 86%
+    10790: 7632:      if (hash != d->states[i].hash || s->nelem != d->states[i].elems.nelem
+branch  0 taken 13% (fallthrough)
+branch  1 taken 87%
 branch  2 taken 100% (fallthrough)
 branch  3 taken 1%
-     1453: 7633:	  || newline != d->states[i].newline || letter != d->states[i].letter)
+     1446: 7633:	  || newline != d->states[i].newline || letter != d->states[i].letter)
 branch  0 taken 90% (fallthrough)
 branch  1 taken 10%
 branch  2 taken 2% (fallthrough)
 branch  3 taken 98%
-     9359: 7634:	continue;
-    37459: 7635:      for (j = 0; j < s->nelem; ++j)
+     9517: 7634:	continue;
+    37494: 7635:      for (j = 0; j < s->nelem; ++j)
 branch  0 taken 97%
 branch  1 taken 3% (fallthrough)
-    36210: 7636:	if (s->elems[j].constraint
-    36210: 7637:	    != d->states[i].elems.elems[j].constraint
+    36249: 7636:	if (s->elems[j].constraint
+    36249: 7637:	    != d->states[i].elems.elems[j].constraint
 branch  0 taken 100% (fallthrough)
 branch  1 taken 1%
-    36181: 7638:	    || s->elems[j].index != d->states[i].elems.elems[j].index)
+    36222: 7638:	    || s->elems[j].index != d->states[i].elems.elems[j].index)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 1%
         -: 7639:	  break;
-     1279: 7640:      if (j == s->nelem)
+     1273: 7640:      if (j == s->nelem)
 branch  0 taken 98% (fallthrough)
 branch  1 taken 2%
-     1249: 7641:	return i;
+     1245: 7641:	return i;
         -: 7642:    }
         -: 7643:
         -: 7644:  /* We'll have to create a new state. */
-      259: 7645:  REALLOC_IF_NECESSARY(d->states, dfa_state, d->salloc, d->sindex);
+      264: 7645:  REALLOC_IF_NECESSARY(d->states, dfa_state, d->salloc, d->sindex);
 branch  0 taken 25% (fallthrough)
 branch  1 taken 75%
 branch  2 taken 50%
 branch  3 taken 50% (fallthrough)
 call    4 returned 100%
-      207: 7646:  d->states[i].hash = hash;
-      207: 7647:  MALLOC(d->states[i].elems.elems, position, s->nelem);
+      211: 7646:  d->states[i].hash = hash;
+      211: 7647:  MALLOC(d->states[i].elems.elems, position, s->nelem);
 call    0 returned 100%
-      207: 7648:  copy(s, &d->states[i].elems);
+      211: 7648:  copy(s, &d->states[i].elems);
 call    0 returned 100%
-      207: 7649:  d->states[i].newline = newline;
-      207: 7650:  d->states[i].letter = letter;
-      207: 7651:  d->states[i].backref = 0;
-      207: 7652:  d->states[i].constraint = 0;
-      207: 7653:  d->states[i].first_end = 0;
-     3695: 7654:  for (j = 0; j < s->nelem; ++j)
+      211: 7649:  d->states[i].newline = newline;
+      211: 7650:  d->states[i].letter = letter;
+      211: 7651:  d->states[i].backref = 0;
+      211: 7652:  d->states[i].constraint = 0;
+      211: 7653:  d->states[i].first_end = 0;
+     3751: 7654:  for (j = 0; j < s->nelem; ++j)
 branch  0 taken 94%
 branch  1 taken 6% (fallthrough)
-     3488: 7655:    if (d->tokens[s->elems[j].index] < 0)
+     3540: 7655:    if (d->tokens[s->elems[j].index] < 0)
 branch  0 taken 3% (fallthrough)
 branch  1 taken 97%
         -: 7656:      {
-       90: 7657:	constraint = s->elems[j].constraint;
-       90: 7658:	if (SUCCEEDS_IN_CONTEXT(constraint, newline, 0, letter, 0)
+       94: 7657:	constraint = s->elems[j].constraint;
+       94: 7658:	if (SUCCEEDS_IN_CONTEXT(constraint, newline, 0, letter, 0)
 branch  0 taken 11% (fallthrough)
 branch  1 taken 89%
-branch  2 taken 29% (fallthrough)
-branch  3 taken 71%
-branch  4 taken 8% (fallthrough)
-branch  5 taken 92%
+branch  2 taken 33% (fallthrough)
+branch  3 taken 67%
+branch  4 taken 6% (fallthrough)
+branch  5 taken 94%
 branch  6 taken 0% (fallthrough)
 branch  7 taken 100%
-      64*: 7659:	    || SUCCEEDS_IN_CONTEXT(constraint, newline, 0, letter, 1)
+      63*: 7659:	    || SUCCEEDS_IN_CONTEXT(constraint, newline, 0, letter, 1)
 branch  0 taken 14% (fallthrough)
 branch  1 taken 86%
 branch  2 taken 0% (fallthrough)
@@ -10401,7 +10401,7 @@ branch  4 never executed (fallthrough)
 branch  5 never executed
 branch  6 never executed (fallthrough)
 branch  7 never executed
-      64*: 7660:	    || SUCCEEDS_IN_CONTEXT(constraint, newline, 1, letter, 0)
+      63*: 7660:	    || SUCCEEDS_IN_CONTEXT(constraint, newline, 1, letter, 0)
 branch  0 taken 14% (fallthrough)
 branch  1 taken 86%
 branch  2 taken 95% (fallthrough)
@@ -10419,13 +10419,13 @@ branch  4 never executed (fallthrough)
 branch  5 never executed
 branch  6 never executed (fallthrough)
 branch  7 never executed
-       87: 7662:	  d->states[i].constraint |= constraint;
-       90: 7663:	if (! d->states[i].first_end)
+       91: 7662:	  d->states[i].constraint |= constraint;
+       94: 7663:	if (! d->states[i].first_end)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-       90: 7664:	  d->states[i].first_end = d->tokens[s->elems[j].index];
+       94: 7664:	  d->states[i].first_end = d->tokens[s->elems[j].index];
         -: 7665:      }
-     3398: 7666:    else if (d->tokens[s->elems[j].index] == BACKREF)
+     3446: 7666:    else if (d->tokens[s->elems[j].index] == BACKREF)
 branch  0 taken 3% (fallthrough)
 branch  1 taken 97%
         -: 7667:      {
@@ -10433,9 +10433,9 @@ branch  1 taken 97%
        97: 7669:	d->states[i].backref = 1;
         -: 7670:      }
         -: 7671:
-      207: 7672:  ++d->sindex;
+      211: 7672:  ++d->sindex;
         -: 7673:
-      207: 7674:  return i;
+      211: 7674:  return i;
         -: 7675:}
         -: 7676:
         -: 7677:/* Find the epsilon closure of a set of positions.  If any position of the set
@@ -10444,8 +10444,8 @@ branch  1 taken 97%
         -: 7680:   constraint.  Repeat exhaustively until no funny positions are left.
         -: 7681:   S->elems must be large enough to hold the result. */
         -: 7682:void
-function epsclosure called 2198 returned 100% blocks executed 93%
-     2198: 7683:epsclosure(s, d)
+function epsclosure called 2200 returned 100% blocks executed 93%
+     2200: 7683:epsclosure(s, d)
         -: 7684:     position_set *s;
         -: 7685:     struct dfa *d;
         -: 7686:{
@@ -10453,53 +10453,53 @@ function epsclosure called 2198 returned 100% blocks executed 93%
         -: 7688:  int *visited;
         -: 7689:  position p, old;
         -: 7690:
-     2198: 7691:  MALLOC(visited, int, d->tindex);
+     2200: 7691:  MALLOC(visited, int, d->tindex);
 call    0 returned 100%
-  4771956: 7692:  for (i = 0; i < d->tindex; ++i)
+  4772118: 7692:  for (i = 0; i < d->tindex; ++i)
 branch  0 taken 100%
 branch  1 taken 1% (fallthrough)
-  4769758: 7693:    visited[i] = 0;
+  4769918: 7693:    visited[i] = 0;
         -: 7694:
-     5711: 7695:  for (i = 0; i < s->nelem; ++i)
+     5735: 7695:  for (i = 0; i < s->nelem; ++i)
 branch  0 taken 62%
 branch  1 taken 38% (fallthrough)
-     3513: 7696:    if (d->tokens[s->elems[i].index] >= NOTCHAR
+     3535: 7696:    if (d->tokens[s->elems[i].index] >= NOTCHAR
 branch  0 taken 27% (fallthrough)
 branch  1 taken 73%
-      940: 7697:	&& d->tokens[s->elems[i].index] != BACKREF
+      960: 7697:	&& d->tokens[s->elems[i].index] != BACKREF
 branch  0 taken 94% (fallthrough)
 branch  1 taken 6%
-      881: 7698:	&& d->tokens[s->elems[i].index] < CSET)
+      901: 7698:	&& d->tokens[s->elems[i].index] < CSET)
 branch  0 taken 21% (fallthrough)
 branch  1 taken 79%
         -: 7699:      {
-      187: 7700:	old = s->elems[i];
-      187: 7701:	p.constraint = old.constraint;
-      187: 7702:	delete(s->elems[i], s);
+      190: 7700:	old = s->elems[i];
+      190: 7701:	p.constraint = old.constraint;
+      190: 7702:	delete(s->elems[i], s);
 call    0 returned 100%
-     187*: 7703:	if (visited[old.index])
+     190*: 7703:	if (visited[old.index])
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
         -: 7704:	  {
     #####: 7705:	    --i;
     #####: 7706:	    continue;
         -: 7707:	  }
-      187: 7708:	visited[old.index] = 1;
-      187: 7709:	switch (d->tokens[old.index])
+      190: 7708:	visited[old.index] = 1;
+      190: 7709:	switch (d->tokens[old.index])
 branch  0 taken 24%
-branch  1 taken 61%
+branch  1 taken 62%
 branch  2 taken 4%
 branch  3 taken 4%
 branch  4 taken 4%
 branch  5 taken 3%
 branch  6 taken 0%
         -: 7710:	  {
-       45: 7711:	  case BEGLINE:
-       45: 7712:	    p.constraint &= BEGLINE_CONSTRAINT;
-       45: 7713:	    break;
-      115: 7714:	  case ENDLINE:
-      115: 7715:	    p.constraint &= ENDLINE_CONSTRAINT;
-      115: 7716:	    break;
+       46: 7711:	  case BEGLINE:
+       46: 7712:	    p.constraint &= BEGLINE_CONSTRAINT;
+       46: 7713:	    break;
+      117: 7714:	  case ENDLINE:
+      117: 7715:	    p.constraint &= ENDLINE_CONSTRAINT;
+      117: 7716:	    break;
         7: 7717:	  case BEGWORD:
         7: 7718:	    p.constraint &= BEGWORD_CONSTRAINT;
         7: 7719:	    break;
@@ -10515,20 +10515,20 @@ branch  6 taken 0%
     #####: 7729:	  default:
     #####: 7730:	    break;
         -: 7731:	  }
-      391: 7732:	for (j = 0; j < d->follows[old.index].nelem; ++j)
+      397: 7732:	for (j = 0; j < d->follows[old.index].nelem; ++j)
 branch  0 taken 52%
 branch  1 taken 48% (fallthrough)
         -: 7733:	  {
-      204: 7734:	    p.index = d->follows[old.index].elems[j].index;
-      204: 7735:	    insert(p, s);
+      207: 7734:	    p.index = d->follows[old.index].elems[j].index;
+      207: 7735:	    insert(p, s);
 call    0 returned 100%
         -: 7736:	  }
         -: 7737:	/* Force rescan to start at the beginning. */
-      187: 7738:	i = -1;
+      190: 7738:	i = -1;
         -: 7739:      }
         -: 7740:
-     2198: 7741:  free(visited);
-     2198: 7742:}
+     2200: 7741:  free(visited);
+     2200: 7742:}
         -: 7743:
         -: 7744:/* Perform bottom-up analysis on the parse tree, computing various functions.
         -: 7745:   Note that at this point, we're pretending constructs like \< are real
@@ -10632,23 +10632,23 @@ call    0 returned 100%
        26: 7837:  o_lastpos = lastpos, lastpos += d->nleaves;
        26: 7838:  MALLOC(nalloc, int, d->tindex);
 call    0 returned 100%
-     4650: 7839:  for (i = 0; i < d->tindex; ++i)
+     4658: 7839:  for (i = 0; i < d->tindex; ++i)
 branch  0 taken 99%
 branch  1 taken 1% (fallthrough)
-     4624: 7840:    nalloc[i] = 0;
+     4632: 7840:    nalloc[i] = 0;
        26: 7841:  MALLOC(merged.elems, position, d->nleaves);
 call    0 returned 100%
         -: 7842:
        26: 7843:  CALLOC(d->follows, position_set, d->tindex);
 call    0 returned 100%
         -: 7844:
-     4650: 7845:  for (i = 0; i < d->tindex; ++i)
+     4658: 7845:  for (i = 0; i < d->tindex; ++i)
 branch  0 taken 99%
 branch  1 taken 1% (fallthrough)
         -: 7846:#ifdef DEBUG
         -: 7847:    {				/* Nonsyntactic #ifdef goo... */
         -: 7848:#endif
-     4624: 7849:    switch (d->tokens[i])
+     4632: 7849:    switch (d->tokens[i])
 branch  0 taken 1%
 branch  1 taken 1%
 branch  2 taken 1%
@@ -10696,104 +10696,104 @@ branch  1 taken 25%
        60: 7877:	  nullable[-1] = 1;
        80: 7878:	break;
         -: 7879:
-     2165: 7880:      case CAT:
+     2167: 7880:      case CAT:
         -: 7881:	/* Every element in the firstpos of the second argument is in the
         -: 7882:	   follow of every element in the lastpos of the first argument. */
-     2165: 7883:	tmp.nelem = nfirstpos[-1];
-     2165: 7884:	tmp.elems = firstpos;
-     2165: 7885:	pos = lastpos + nlastpos[-1];
-     4790: 7886:	for (j = 0; j < nlastpos[-2]; ++j)
+     2167: 7883:	tmp.nelem = nfirstpos[-1];
+     2167: 7884:	tmp.elems = firstpos;
+     2167: 7885:	pos = lastpos + nlastpos[-1];
+     4796: 7886:	for (j = 0; j < nlastpos[-2]; ++j)
 branch  0 taken 55%
 branch  1 taken 45% (fallthrough)
         -: 7887:	  {
-     2625: 7888:	    merge(&tmp, &d->follows[pos[j].index], &merged);
+     2629: 7888:	    merge(&tmp, &d->follows[pos[j].index], &merged);
 call    0 returned 100%
-     2859: 7889:	    REALLOC_IF_NECESSARY(d->follows[pos[j].index].elems, position,
-branch  0 taken 8% (fallthrough)
-branch  1 taken 92%
+     2864: 7889:	    REALLOC_IF_NECESSARY(d->follows[pos[j].index].elems, position,
+branch  0 taken 9% (fallthrough)
+branch  1 taken 91%
 branch  2 taken 51%
 branch  3 taken 49% (fallthrough)
 call    4 returned 100%
         -: 7890:				 nalloc[pos[j].index], merged.nelem - 1);
-     2625: 7891:	    copy(&merged, &d->follows[pos[j].index]);
+     2629: 7891:	    copy(&merged, &d->follows[pos[j].index]);
 call    0 returned 100%
         -: 7892:	  }
         -: 7893:
         -: 7894:	/* The firstpos of a CAT node is the firstpos of the first argument,
         -: 7895:	   union that of the second argument if the first is nullable. */
-     2165: 7896:	if (nullable[-2])
+     2167: 7896:	if (nullable[-2])
 branch  0 taken 1% (fallthrough)
 branch  1 taken 100%
         6: 7897:	  nfirstpos[-2] += nfirstpos[-1];
         -: 7898:	else
-     2159: 7899:	  firstpos += nfirstpos[-1];
-     2165: 7900:	--nfirstpos;
+     2161: 7899:	  firstpos += nfirstpos[-1];
+     2167: 7900:	--nfirstpos;
         -: 7901:
         -: 7902:	/* The lastpos of a CAT node is the lastpos of the second argument,
         -: 7903:	   union that of the first argument if the second is nullable. */
-     2165: 7904:	if (nullable[-1])
+     2167: 7904:	if (nullable[-1])
 branch  0 taken 4% (fallthrough)
 branch  1 taken 96%
        92: 7905:	  nlastpos[-2] += nlastpos[-1];
         -: 7906:	else
         -: 7907:	  {
-     2073: 7908:	    pos = lastpos + nlastpos[-2];
-     4202: 7909:	    for (j = nlastpos[-1] - 1; j >= 0; --j)
+     2075: 7908:	    pos = lastpos + nlastpos[-2];
+     4208: 7909:	    for (j = nlastpos[-1] - 1; j >= 0; --j)
 branch  0 taken 51%
 branch  1 taken 49% (fallthrough)
-     2129: 7910:	      pos[j] = lastpos[j];
-     2073: 7911:	    lastpos += nlastpos[-2];
-     2073: 7912:	    nlastpos[-2] = nlastpos[-1];
+     2133: 7910:	      pos[j] = lastpos[j];
+     2075: 7911:	    lastpos += nlastpos[-2];
+     2075: 7912:	    nlastpos[-2] = nlastpos[-1];
         -: 7913:	  }
-     2165: 7914:	--nlastpos;
+     2167: 7914:	--nlastpos;
         -: 7915:
         -: 7916:	/* A CAT node is nullable if both arguments are nullable. */
-     2165: 7917:	nullable[-2] = nullable[-1] && nullable[-2];
+     2167: 7917:	nullable[-2] = nullable[-1] && nullable[-2];
 branch  0 taken 4% (fallthrough)
 branch  1 taken 96%
 branch  2 taken 2% (fallthrough)
 branch  3 taken 98%
-     2165: 7918:	--nullable;
-     2165: 7919:	break;
+     2167: 7918:	--nullable;
+     2167: 7919:	break;
         -: 7920:
-       94: 7921:      case OR:
+       96: 7921:      case OR:
         -: 7922:      case ORTOP:
         -: 7923:	/* The firstpos is the union of the firstpos of each argument. */
-       94: 7924:	nfirstpos[-2] += nfirstpos[-1];
-       94: 7925:	--nfirstpos;
+       96: 7924:	nfirstpos[-2] += nfirstpos[-1];
+       96: 7925:	--nfirstpos;
         -: 7926:
         -: 7927:	/* The lastpos is the union of the lastpos of each argument. */
-       94: 7928:	nlastpos[-2] += nlastpos[-1];
-       94: 7929:	--nlastpos;
+       96: 7928:	nlastpos[-2] += nlastpos[-1];
+       96: 7929:	--nlastpos;
         -: 7930:
         -: 7931:	/* An OR node is nullable if either argument is nullable. */
-       94: 7932:	nullable[-2] = nullable[-1] || nullable[-2];
+       96: 7932:	nullable[-2] = nullable[-1] || nullable[-2];
 branch  0 taken 98% (fallthrough)
 branch  1 taken 2%
 branch  2 taken 14% (fallthrough)
 branch  3 taken 86%
-       94: 7933:	--nullable;
-       94: 7934:	break;
+       96: 7933:	--nullable;
+       96: 7934:	break;
         -: 7935:
-     2284: 7936:      default:
+     2288: 7936:      default:
         -: 7937:	/* Anything else is a nonempty position.  (Note that special
         -: 7938:	   constructs like \< are treated as nonempty strings here;
         -: 7939:	   an "epsilon closure" effectively makes them nullable later.
         -: 7940:	   Backreferences have to get a real position so we can detect
         -: 7941:	   transitions on them later.  But they are nullable. */
-     2284: 7942:	*nullable++ = d->tokens[i] == BACKREF;
+     2288: 7942:	*nullable++ = d->tokens[i] == BACKREF;
         -: 7943:
         -: 7944:	/* This position is in its own firstpos and lastpos. */
-     2284: 7945:	*nfirstpos++ = *nlastpos++ = 1;
-     2284: 7946:	--firstpos, --lastpos;
-     2284: 7947:	firstpos->index = lastpos->index = i;
-     2284: 7948:	firstpos->constraint = lastpos->constraint = NO_CONSTRAINT;
+     2288: 7945:	*nfirstpos++ = *nlastpos++ = 1;
+     2288: 7946:	--firstpos, --lastpos;
+     2288: 7947:	firstpos->index = lastpos->index = i;
+     2288: 7948:	firstpos->constraint = lastpos->constraint = NO_CONSTRAINT;
         -: 7949:
         -: 7950:	/* Allocate the follow set for this position. */
-     2284: 7951:	nalloc[i] = 1;
-     2284: 7952:	MALLOC(d->follows[i].elems, position, nalloc[i]);
+     2288: 7951:	nalloc[i] = 1;
+     2288: 7952:	MALLOC(d->follows[i].elems, position, nalloc[i]);
 call    0 returned 100%
-     2284: 7953:	break;
+     2288: 7953:	break;
         -: 7954:      }
         -: 7955:#ifdef DEBUG
         -: 7956:    /* ... balance the above nonsyntactic #ifdef goo... */
@@ -10819,15 +10819,15 @@ call    0 returned 100%
         -: 7976:
         -: 7977:  /* For each follow set that is the follow set of a real position, replace
         -: 7978:     it with its epsilon closure. */
-     4650: 7979:  for (i = 0; i < d->tindex; ++i)
+     4658: 7979:  for (i = 0; i < d->tindex; ++i)
 branch  0 taken 99%
 branch  1 taken 1% (fallthrough)
-     4624: 7980:    if (d->tokens[i] < NOTCHAR || d->tokens[i] == BACKREF
+     4632: 7980:    if (d->tokens[i] < NOTCHAR || d->tokens[i] == BACKREF
 branch  0 taken 57% (fallthrough)
 branch  1 taken 43%
 branch  2 taken 99% (fallthrough)
 branch  3 taken 1%
-     2596: 7981:	|| d->tokens[i] >= CSET)
+     2604: 7981:	|| d->tokens[i] >= CSET)
 branch  0 taken 6% (fallthrough)
 branch  1 taken 94%
         -: 7982:      {
@@ -10842,16 +10842,16 @@ branch  1 taken 94%
         -: 7991:	  }
         -: 7992:	putc('\n', stderr);
         -: 7993:#endif
-     2172: 7994:	copy(&d->follows[i], &merged);
+     2174: 7994:	copy(&d->follows[i], &merged);
 call    0 returned 100%
-     2172: 7995:	epsclosure(&merged, d);
+     2174: 7995:	epsclosure(&merged, d);
 call    0 returned 100%
-     2172: 7996:	if (d->follows[i].nelem < merged.nelem)
+     2174: 7996:	if (d->follows[i].nelem < merged.nelem)
 branch  0 taken 1% (fallthrough)
 branch  1 taken 100%
         1: 7997:	  REALLOC(d->follows[i].elems, position, merged.nelem);
 call    0 returned 100%
-     2172: 7998:	copy(&merged, &d->follows[i]);
+     2174: 7998:	copy(&merged, &d->follows[i]);
 call    0 returned 100%
         -: 7999:      }
         -: 8000:
@@ -10973,29 +10973,29 @@ call    0 returned 100%
       121: 8097:  zeroset(matches);
 call    0 returned 100%
         -: 8098:
-     2237: 8099:  for (i = 0; i < d->states[s].elems.nelem; ++i)
+     2242: 8099:  for (i = 0; i < d->states[s].elems.nelem; ++i)
 branch  0 taken 95%
 branch  1 taken 5% (fallthrough)
         -: 8100:    {
-     2116: 8101:      pos = d->states[s].elems.elems[i];
-     2116: 8102:      if (d->tokens[pos.index] >= 0 && d->tokens[pos.index] < NOTCHAR)
+     2121: 8101:      pos = d->states[s].elems.elems[i];
+     2121: 8102:      if (d->tokens[pos.index] >= 0 && d->tokens[pos.index] < NOTCHAR)
 branch  0 taken 98% (fallthrough)
 branch  1 taken 2%
 branch  2 taken 85% (fallthrough)
 branch  3 taken 15%
      1774: 8103:	setbit(d->tokens[pos.index], matches);
 call    0 returned 100%
-      342: 8104:      else if (d->tokens[pos.index] >= CSET)
+      347: 8104:      else if (d->tokens[pos.index] >= CSET)
 branch  0 taken 81% (fallthrough)
 branch  1 taken 19%
-      277: 8105:	copyset(d->charclasses[d->tokens[pos.index] - CSET], matches);
+      282: 8105:	copyset(d->charclasses[d->tokens[pos.index] - CSET], matches);
 call    0 returned 100%
         -: 8106:      else
        65: 8107:	continue;
         -: 8108:
         -: 8109:      /* Some characters may need to be eliminated from matches because
         -: 8110:	 they fail in the current context. */
-     2051: 8111:      if (pos.constraint != 0xFF)
+     2056: 8111:      if (pos.constraint != 0xFF)
 branch  0 taken 41% (fallthrough)
 branch  1 taken 59%
         -: 8112:	{
@@ -11051,98 +11051,98 @@ branch  1 taken 7%
       788: 8133:	    continue;
         -: 8134:	}
         -: 8135:
-    10711: 8136:      for (j = 0; j < ngrps; ++j)
+    10810: 8136:      for (j = 0; j < ngrps; ++j)
 branch  0 taken 90%
 branch  1 taken 10% (fallthrough)
         -: 8137:	{
         -: 8138:	  /* If matches contains a single character only, and the current
         -: 8139:	     group's label doesn't contain that character, go on to the
         -: 8140:	     next group. */
-     9624: 8141:	  if (d->tokens[pos.index] >= 0 && d->tokens[pos.index] < NOTCHAR
+     9728: 8141:	  if (d->tokens[pos.index] >= 0 && d->tokens[pos.index] < NOTCHAR
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-branch  2 taken 92% (fallthrough)
-branch  3 taken 8%
-     8806: 8142:	      && !tstbit(d->tokens[pos.index], labels[j]))
+branch  2 taken 91% (fallthrough)
+branch  3 taken 9%
+     8805: 8142:	      && !tstbit(d->tokens[pos.index], labels[j]))
 call    0 returned 100%
 branch  1 taken 99% (fallthrough)
 branch  2 taken 1%
-     8739: 8143:	    continue;
+     8737: 8143:	    continue;
         -: 8144:
         -: 8145:	  /* Check if this group's label has a nonempty intersection with
         -: 8146:	     matches. */
-      885: 8147:	  intersectf = 0;
-     7965: 8148:	  for (k = 0; k < CHARCLASS_INTS; ++k)
+      991: 8147:	  intersectf = 0;
+     8919: 8148:	  for (k = 0; k < CHARCLASS_INTS; ++k)
 branch  0 taken 89%
 branch  1 taken 11% (fallthrough)
-     7080: 8149:	    (intersect[k] = matches[k] & labels[j][k]) ? intersectf = 1 : 0;
+     7928: 8149:	    (intersect[k] = matches[k] & labels[j][k]) ? intersectf = 1 : 0;
 branch  0 taken 8% (fallthrough)
 branch  1 taken 92%
-      885: 8150:	  if (! intersectf)
-branch  0 taken 54% (fallthrough)
-branch  1 taken 46%
-      477: 8151:	    continue;
+      991: 8150:	  if (! intersectf)
+branch  0 taken 56% (fallthrough)
+branch  1 taken 44%
+      553: 8151:	    continue;
         -: 8152:
         -: 8153:	  /* It does; now find the set differences both ways. */
-      408: 8154:	  leftoversf = matchesf = 0;
-     3672: 8155:	  for (k = 0; k < CHARCLASS_INTS; ++k)
+      438: 8154:	  leftoversf = matchesf = 0;
+     3942: 8155:	  for (k = 0; k < CHARCLASS_INTS; ++k)
 branch  0 taken 89%
 branch  1 taken 11% (fallthrough)
         -: 8156:	    {
         -: 8157:	      /* Even an optimizing compiler can't know this for sure. */
-     3264: 8158:	      int match = matches[k], label = labels[j][k];
+     3504: 8158:	      int match = matches[k], label = labels[j][k];
         -: 8159:
-     3264: 8160:	      (leftovers[k] = ~match & label) ? leftoversf = 1 : 0;
-branch  0 taken 5% (fallthrough)
-branch  1 taken 95%
-     3264: 8161:	      (matches[k] = match & ~label) ? matchesf = 1 : 0;
-branch  0 taken 31% (fallthrough)
-branch  1 taken 69%
+     3504: 8160:	      (leftovers[k] = ~match & label) ? leftoversf = 1 : 0;
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+     3504: 8161:	      (matches[k] = match & ~label) ? matchesf = 1 : 0;
+branch  0 taken 30% (fallthrough)
+branch  1 taken 70%
         -: 8162:	    }
         -: 8163:
         -: 8164:	  /* If there were leftovers, create a new group labeled with them. */
-      408: 8165:	  if (leftoversf)
+      438: 8165:	  if (leftoversf)
 branch  0 taken 19% (fallthrough)
 branch  1 taken 81%
         -: 8166:	    {
-       79: 8167:	      copyset(leftovers, labels[ngrps]);
+       84: 8167:	      copyset(leftovers, labels[ngrps]);
 call    0 returned 100%
-       79: 8168:	      copyset(intersect, labels[j]);
+       84: 8168:	      copyset(intersect, labels[j]);
 call    0 returned 100%
-       79: 8169:	      MALLOC(grps[ngrps].elems, position, d->nleaves);
+       84: 8169:	      MALLOC(grps[ngrps].elems, position, d->nleaves);
 call    0 returned 100%
-       79: 8170:	      copy(&grps[j], &grps[ngrps]);
+       84: 8170:	      copy(&grps[j], &grps[ngrps]);
 call    0 returned 100%
-       79: 8171:	      ++ngrps;
+       84: 8171:	      ++ngrps;
         -: 8172:	    }
         -: 8173:
         -: 8174:	  /* Put the position in the current group.  Note that there is no
         -: 8175:	     reason to call insert() here. */
-      408: 8176:	  grps[j].elems[grps[j].nelem++] = pos;
+      438: 8176:	  grps[j].elems[grps[j].nelem++] = pos;
         -: 8177:
         -: 8178:	  /* If every character matching the current position has been
         -: 8179:	     accounted for, we're done. */
-      408: 8180:	  if (! matchesf)
-branch  0 taken 43% (fallthrough)
-branch  1 taken 57%
-      176: 8181:	    break;
+      438: 8180:	  if (! matchesf)
+branch  0 taken 42% (fallthrough)
+branch  1 taken 58%
+      186: 8181:	    break;
         -: 8182:	}
         -: 8183:
         -: 8184:      /* If we've passed the last group, and there are still characters
         -: 8185:	 unaccounted for, then we'll have to create a new group. */
-     1263: 8186:      if (j == ngrps)
-branch  0 taken 86% (fallthrough)
-branch  1 taken 14%
+     1268: 8186:      if (j == ngrps)
+branch  0 taken 85% (fallthrough)
+branch  1 taken 15%
         -: 8187:	{
-     1087: 8188:	  copyset(matches, labels[ngrps]);
+     1082: 8188:	  copyset(matches, labels[ngrps]);
 call    0 returned 100%
-     1087: 8189:	  zeroset(matches);
+     1082: 8189:	  zeroset(matches);
 call    0 returned 100%
-     1087: 8190:	  MALLOC(grps[ngrps].elems, position, d->nleaves);
+     1082: 8190:	  MALLOC(grps[ngrps].elems, position, d->nleaves);
 call    0 returned 100%
-     1087: 8191:	  grps[ngrps].nelem = 1;
-     1087: 8192:	  grps[ngrps].elems[0] = pos;
-     1087: 8193:	  ++ngrps;
+     1082: 8191:	  grps[ngrps].nelem = 1;
+     1082: 8192:	  grps[ngrps].elems[0] = pos;
+     1082: 8193:	  ++ngrps;
         -: 8194:	}
         -: 8195:    }
         -: 8196:
@@ -11219,13 +11219,13 @@ branch  1 taken 9% (fallthrough)
         -: 8239:
         -: 8240:      /* Find the union of the follows of the positions of the group.
         -: 8241:	 This is a hideously inefficient loop.  Fix it someday. */
-     2940: 8242:      for (j = 0; j < grps[i].nelem; ++j)
-branch  0 taken 60%
-branch  1 taken 40% (fallthrough)
-     8450: 8243:	for (k = 0; k < d->follows[grps[i].elems[j].index].nelem; ++k)
-branch  0 taken 79%
-branch  1 taken 21% (fallthrough)
-     6676: 8244:	  insert(d->follows[grps[i].elems[j].index].elems[k], &follows);
+     2967: 8242:      for (j = 0; j < grps[i].nelem; ++j)
+branch  0 taken 61%
+branch  1 taken 39% (fallthrough)
+     8864: 8243:	for (k = 0; k < d->follows[grps[i].elems[j].index].nelem; ++k)
+branch  0 taken 80%
+branch  1 taken 20% (fallthrough)
+     7063: 8244:	  insert(d->follows[grps[i].elems[j].index].elems[k], &follows);
 call    0 returned 100%
         -: 8245:
         -: 8246:      /* If we are building a searching matcher, throw in the positions
@@ -11245,12 +11245,12 @@ call    0 returned 100%
 call    0 returned 100%
 branch  1 taken 1% (fallthrough)
 branch  2 taken 99%
-      188: 8255:	for (j = 0; j < follows.nelem; ++j)
+      193: 8255:	for (j = 0; j < follows.nelem; ++j)
 branch  0 taken 94%
 branch  1 taken 6% (fallthrough)
-      176: 8256:	  if (PREV_NEWLINE_DEPENDENT(follows.elems[j].constraint))
-branch  0 taken 25% (fallthrough)
-branch  1 taken 75%
+      181: 8256:	  if (PREV_NEWLINE_DEPENDENT(follows.elems[j].constraint))
+branch  0 taken 24% (fallthrough)
+branch  1 taken 76%
        44: 8257:	    wants_newline = 1;
         -: 8258:
      1166: 8259:      wants_letter = 0;
@@ -11264,10 +11264,10 @@ branch  1 taken 94%
      1166: 8263:      if (j < CHARCLASS_INTS)
 branch  0 taken 40% (fallthrough)
 branch  1 taken 60%
-    13034: 8264:	for (j = 0; j < follows.nelem; ++j)
+    13083: 8264:	for (j = 0; j < follows.nelem; ++j)
 branch  0 taken 96%
 branch  1 taken 4% (fallthrough)
-    12572: 8265:	  if (PREV_LETTER_DEPENDENT(follows.elems[j].constraint))
+    12621: 8265:	  if (PREV_LETTER_DEPENDENT(follows.elems[j].constraint))
 branch  0 taken 1% (fallthrough)
 branch  1 taken 100%
        17: 8266:	    wants_letter = 1;
@@ -11423,27 +11423,27 @@ branch  1 taken 1% (fallthrough)
 branch  0 taken 1% (fallthrough)
 branch  1 taken 100%
         -: 8358:      {
-       38: 8359:	int oldalloc = d->tralloc;
+       39: 8359:	int oldalloc = d->tralloc;
         -: 8360:
-       89: 8361:	while (trans[i] >= d->tralloc)
+       91: 8361:	while (trans[i] >= d->tralloc)
 branch  0 taken 57%
 branch  1 taken 43% (fallthrough)
-       51: 8362:	  d->tralloc *= 2;
-       38: 8363:	REALLOC(d->realtrans, int *, d->tralloc + 1);
+       52: 8362:	  d->tralloc *= 2;
+       39: 8363:	REALLOC(d->realtrans, int *, d->tralloc + 1);
 call    0 returned 100%
-       38: 8364:	d->trans = d->realtrans + 1;
-       38: 8365:	REALLOC(d->fails, int *, d->tralloc);
+       39: 8364:	d->trans = d->realtrans + 1;
+       39: 8365:	REALLOC(d->fails, int *, d->tralloc);
 call    0 returned 100%
-       38: 8366:	REALLOC(d->success, int, d->tralloc);
+       39: 8366:	REALLOC(d->success, int, d->tralloc);
 call    0 returned 100%
-       38: 8367:	REALLOC(d->newlines, int, d->tralloc);
+       39: 8367:	REALLOC(d->newlines, int, d->tralloc);
 call    0 returned 100%
-      322: 8368:	while (oldalloc < d->tralloc)
+      331: 8368:	while (oldalloc < d->tralloc)
 branch  0 taken 88%
 branch  1 taken 12% (fallthrough)
         -: 8369:	  {
-      284: 8370:	    d->trans[oldalloc] = NULL;
-      284: 8371:	    d->fails[oldalloc++] = NULL;
+      292: 8370:	    d->trans[oldalloc] = NULL;
+      292: 8371:	    d->fails[oldalloc++] = NULL;
         -: 8372:	  }
         -: 8373:      }
         -: 8374:
@@ -11683,15 +11683,15 @@ call    0 never executed
         -: 8546:      
         -: 8547:      /* This is a kludge. */
         3: 8548:      case_fold = 0;
-      292: 8549:      for (i = 0; i < len; ++i)
+      308: 8549:      for (i = 0; i < len; ++i)
 branch  0 taken 99%
 branch  1 taken 1% (fallthrough)
-      289: 8550:	if (ISUPPER(s[i]))
-branch  0 taken 4% (fallthrough)
-branch  1 taken 96%
-       13: 8551:	  copy[i] = tolower(s[i]);
+      305: 8550:	if (ISUPPER(s[i]))
+branch  0 taken 5% (fallthrough)
+branch  1 taken 95%
+       15: 8551:	  copy[i] = tolower(s[i]);
         -: 8552:	else
-      276: 8553:	  copy[i] = s[i];
+      290: 8553:	  copy[i] = s[i];
         -: 8554:
         3: 8555:      dfainit(d);
 call    0 returned 100%
@@ -11849,47 +11849,47 @@ branch  1 never executed (fallthrough)
         -: 8684:   'psi|epsilon' is likelier)? */
         -: 8685:
         -: 8686:static char *
-function icatalloc called 13313 returned 100% blocks executed 94%
-    13313: 8687:icatalloc(old, new)
+function icatalloc called 13316 returned 100% blocks executed 94%
+    13316: 8687:icatalloc(old, new)
         -: 8688:     char *old;
         -: 8689:     char *new;
         -: 8690:{
         -: 8691:  char *result;
         -: 8692:  int oldsize, newsize;
         -: 8693:
-   13313*: 8694:  newsize = (new == NULL) ? 0 : strlen(new);
+   13316*: 8694:  newsize = (new == NULL) ? 0 : strlen(new);
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-    13313: 8695:  if (old == NULL)
+    13316: 8695:  if (old == NULL)
 branch  0 taken 62% (fallthrough)
 branch  1 taken 38%
-     8275: 8696:    oldsize = 0;
-     5038: 8697:  else if (newsize == 0)
+     8276: 8696:    oldsize = 0;
+     5040: 8697:  else if (newsize == 0)
 branch  0 taken 4% (fallthrough)
 branch  1 taken 96%
-      207: 8698:    return old;
+      209: 8698:    return old;
      4831: 8699:  else	oldsize = strlen(old);
-    13106: 8700:  if (old == NULL)
+    13107: 8700:  if (old == NULL)
 branch  0 taken 63% (fallthrough)
 branch  1 taken 37%
-     8275: 8701:    result = (char *) malloc(newsize + 1);
+     8276: 8701:    result = (char *) malloc(newsize + 1);
         -: 8702:  else
      4831: 8703:    result = (char *) realloc((void *) old, oldsize + newsize + 1);
-    13106: 8704:  if (result != NULL && new != NULL)
+    13107: 8704:  if (result != NULL && new != NULL)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
 branch  2 taken 100% (fallthrough)
 branch  3 taken 0%
-    13106: 8705:    (void) strcpy(result + oldsize, new);
-    13106: 8706:  return result;
+    13107: 8705:    (void) strcpy(result + oldsize, new);
+    13107: 8706:  return result;
         -: 8707:}
         -: 8708:
         -: 8709:static char *
-function icpyalloc called 8275 returned 100% blocks executed 100%
-     8275: 8710:icpyalloc(string)
+function icpyalloc called 8276 returned 100% blocks executed 100%
+     8276: 8710:icpyalloc(string)
         -: 8711:     char *string;
         -: 8712:{
-     8275: 8713:  return icatalloc((char *) NULL, string);
+     8276: 8713:  return icatalloc((char *) NULL, string);
 call    0 returned 100%
         -: 8714:}
         -: 8715:
@@ -11914,50 +11914,50 @@ branch  1 taken 100%
         -: 8729:}
         -: 8730:
         -: 8731:static void
-function ifree called 18600 returned 100% blocks executed 100%
-    18600: 8732:ifree(cp)
+function ifree called 18632 returned 100% blocks executed 100%
+    18632: 8732:ifree(cp)
         -: 8733:     char *cp;
         -: 8734:{
-    18600: 8735:  if (cp != NULL)
+    18632: 8735:  if (cp != NULL)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-    18600: 8736:    free(cp);
-    18600: 8737:}
+    18632: 8736:    free(cp);
+    18632: 8737:}
         -: 8738:
         -: 8739:static void
-function freelist called 7092 returned 100% blocks executed 83%
-     7092: 8740:freelist(cpp)
+function freelist called 7106 returned 100% blocks executed 83%
+     7106: 8740:freelist(cpp)
         -: 8741:     char **cpp;
         -: 8742:{
         -: 8743:  int i;
         -: 8744:
-     7092: 8745:  if (cpp == NULL)
+     7106: 8745:  if (cpp == NULL)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 8746:    return;
-     9216: 8747:  for (i = 0; cpp[i] != NULL; ++i)
+     9231: 8747:  for (i = 0; cpp[i] != NULL; ++i)
 branch  0 taken 23%
 branch  1 taken 77% (fallthrough)
         -: 8748:    {
-     2124: 8749:      free(cpp[i]);
-     2124: 8750:      cpp[i] = NULL;
+     2125: 8749:      free(cpp[i]);
+     2125: 8750:      cpp[i] = NULL;
         -: 8751:    }
         -: 8752:}
         -: 8753:
         -: 8754:static char **
-function enlist called 6390 returned 100% blocks executed 84%
-     6390: 8755:enlist(cpp, new, len)
+function enlist called 6391 returned 100% blocks executed 84%
+     6391: 8755:enlist(cpp, new, len)
         -: 8756:     char **cpp;
         -: 8757:     char *new;
         -: 8758:     int len;
         -: 8759:{
         -: 8760:  int i, j;
         -: 8761:
-     6390: 8762:  if (cpp == NULL)
+     6391: 8762:  if (cpp == NULL)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 8763:    return NULL;
-     6390: 8764:  if ((new = icpyalloc(new)) == NULL)
+     6391: 8764:  if ((new = icpyalloc(new)) == NULL)
 call    0 returned 100%
 branch  1 taken 0% (fallthrough)
 branch  2 taken 100%
@@ -11966,9 +11966,9 @@ branch  2 taken 100%
 call    0 never executed
     #####: 8767:      return NULL;
         -: 8768:    }
-     6390: 8769:  new[len] = '\0';
+     6391: 8769:  new[len] = '\0';
         -: 8770:  /* Is there already something in the list that's new (or longer)? */
-    17391: 8771:  for (i = 0; cpp[i] != NULL; ++i)
+    17392: 8771:  for (i = 0; cpp[i] != NULL; ++i)
 branch  0 taken 77%
 branch  1 taken 23% (fallthrough)
     13313: 8772:    if (istrstr(cpp[i], new) != NULL)
@@ -11980,8 +11980,8 @@ branch  2 taken 83%
      2312: 8775:	return cpp;
         -: 8776:      }
         -: 8777:  /* Eliminate any obsoleted strings. */
-     4078: 8778:  j = 0;
-     8761: 8779:  while (cpp[j] != NULL)
+     4079: 8778:  j = 0;
+     8762: 8779:  while (cpp[j] != NULL)
 branch  0 taken 75%
 branch  1 taken 25% (fallthrough)
      6568: 8780:    if (istrstr(new, cpp[j]) == NULL)
@@ -12000,14 +12000,14 @@ branch  1 taken 4%
        69: 8788:	cpp[i] = NULL;
         -: 8789:      }
         -: 8790:  /* Add the new string. */
-     4078: 8791:  cpp = (char **) realloc((char *) cpp, (i + 2) * sizeof *cpp);
-     4078: 8792:  if (cpp == NULL)
+     4079: 8791:  cpp = (char **) realloc((char *) cpp, (i + 2) * sizeof *cpp);
+     4079: 8792:  if (cpp == NULL)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 8793:    return NULL;
-     4078: 8794:  cpp[i] = new;
-     4078: 8795:  cpp[i + 1] = NULL;
-     4078: 8796:  return cpp;
+     4079: 8794:  cpp[i] = new;
+     4079: 8795:  cpp[i + 1] = NULL;
+     4079: 8796:  return cpp;
         -: 8797:}
         -: 8798:
         -: 8799:/* Given pointers to two strings, return a pointer to an allocated
@@ -12072,38 +12072,38 @@ branch  2 taken 100%
         -: 8836:}
         -: 8837:
         -: 8838:static char **
-function addlists called 2168 returned 100% blocks executed 82%
-     2168: 8839:addlists(old, new)
+function addlists called 2170 returned 100% blocks executed 82%
+     2170: 8839:addlists(old, new)
         -: 8840:char **old;
         -: 8841:char **new;
         -: 8842:{
         -: 8843:  int i;
         -: 8844:
-     2168: 8845:  if (old == NULL || new == NULL)
+     2170: 8845:  if (old == NULL || new == NULL)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
 branch  2 taken 0% (fallthrough)
 branch  3 taken 100%
     #####: 8846:    return NULL;
-     4125: 8847:  for (i = 0; new[i] != NULL; ++i)
+     4128: 8847:  for (i = 0; new[i] != NULL; ++i)
 branch  0 taken 47%
 branch  1 taken 53% (fallthrough)
         -: 8848:    {
-     1957: 8849:      old = enlist(old, new[i], strlen(new[i]));
+     1958: 8849:      old = enlist(old, new[i], strlen(new[i]));
 call    0 returned 100%
-     1957: 8850:      if (old == NULL)
+     1958: 8850:      if (old == NULL)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 8851:	break;
         -: 8852:    }
-     2168: 8853:  return old;
+     2170: 8853:  return old;
         -: 8854:}
         -: 8855:
         -: 8856:/* Given two lists of substrings, return a new list giving substrings
         -: 8857:   common to both. */
         -: 8858:static char **
-function inboth called 94 returned 100% blocks executed 76%
-       94: 8859:inboth(left, right)
+function inboth called 96 returned 100% blocks executed 76%
+       96: 8859:inboth(left, right)
         -: 8860:     char **left;
         -: 8861:     char **right;
         -: 8862:{
@@ -12111,19 +12111,19 @@ function inboth called 94 returned 100% blocks executed 76%
         -: 8864:  char **temp;
         -: 8865:  int lnum, rnum;
         -: 8866:
-       94: 8867:  if (left == NULL || right == NULL)
+       96: 8867:  if (left == NULL || right == NULL)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
 branch  2 taken 0% (fallthrough)
 branch  3 taken 100%
     #####: 8868:    return NULL;
-       94: 8869:  both = (char **) malloc(sizeof *both);
-       94: 8870:  if (both == NULL)
+       96: 8869:  both = (char **) malloc(sizeof *both);
+       96: 8870:  if (both == NULL)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 8871:    return NULL;
-       94: 8872:  both[0] = NULL;
-      112: 8873:  for (lnum = 0; left[lnum] != NULL; ++lnum)
+       96: 8872:  both[0] = NULL;
+      114: 8873:  for (lnum = 0; left[lnum] != NULL; ++lnum)
 branch  0 taken 16%
 branch  1 taken 84% (fallthrough)
         -: 8874:    {
@@ -12151,7 +12151,7 @@ branch  1 taken 100%
     #####: 8886:	    return NULL;
         -: 8887:	}
         -: 8888:    }
-       94: 8889:  return both;
+       96: 8889:  return both;
         -: 8890:}
         -: 8891:
         -: 8892:typedef struct
@@ -12163,14 +12163,14 @@ branch  1 taken 100%
         -: 8898:} must;
         -: 8899:
         -: 8900:static void
-function resetmust called 2319 returned 100% blocks executed 100%
-     2319: 8901:resetmust(mp)
+function resetmust called 2323 returned 100% blocks executed 100%
+     2323: 8901:resetmust(mp)
         -: 8902:must *mp;
         -: 8903:{
-     2319: 8904:  mp->left[0] = mp->right[0] = mp->is[0] = '\0';
-     2319: 8905:  freelist(mp->in);
+     2323: 8904:  mp->left[0] = mp->right[0] = mp->is[0] = '\0';
+     2323: 8905:  freelist(mp->in);
 call    0 returned 100%
-     2319: 8906:}
+     2323: 8906:}
         -: 8907:
         -: 8908:static void
 function dfamust called 26 returned 100% blocks executed 81%
@@ -12195,31 +12195,31 @@ branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 8926:    return;
        26: 8927:  mp = musts;
-     4676: 8928:  for (i = 0; i <= dfa->tindex; ++i)
+     4684: 8928:  for (i = 0; i <= dfa->tindex; ++i)
 branch  0 taken 99%
 branch  1 taken 1% (fallthrough)
-     4650: 8929:    mp[i] = must0;
-     4676: 8930:  for (i = 0; i <= dfa->tindex; ++i)
+     4658: 8929:    mp[i] = must0;
+     4684: 8930:  for (i = 0; i <= dfa->tindex; ++i)
 branch  0 taken 99%
 branch  1 taken 1% (fallthrough)
         -: 8931:    {
-     4650: 8932:      mp[i].in = (char **) malloc(sizeof *mp[i].in);
-     4650: 8933:      mp[i].left = malloc(2);
-     4650: 8934:      mp[i].right = malloc(2);
-     4650: 8935:      mp[i].is = malloc(2);
-     4650: 8936:      if (mp[i].in == NULL || mp[i].left == NULL ||
+     4658: 8932:      mp[i].in = (char **) malloc(sizeof *mp[i].in);
+     4658: 8933:      mp[i].left = malloc(2);
+     4658: 8934:      mp[i].right = malloc(2);
+     4658: 8935:      mp[i].is = malloc(2);
+     4658: 8936:      if (mp[i].in == NULL || mp[i].left == NULL ||
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
 branch  2 taken 100% (fallthrough)
 branch  3 taken 0%
-     4650: 8937:	  mp[i].right == NULL || mp[i].is == NULL)
+     4658: 8937:	  mp[i].right == NULL || mp[i].is == NULL)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
 branch  2 taken 0% (fallthrough)
 branch  3 taken 100%
     #####: 8938:	goto done;
-     4650: 8939:      mp[i].left[0] = mp[i].right[0] = mp[i].is[0] = '\0';
-     4650: 8940:      mp[i].in[0] = NULL;
+     4658: 8939:      mp[i].left[0] = mp[i].right[0] = mp[i].is[0] = '\0';
+     4658: 8940:      mp[i].in[0] = NULL;
         -: 8941:    }
         -: 8942:#ifdef DEBUG
         -: 8943:  fprintf(stderr, "dfamust:\n");
@@ -12230,24 +12230,24 @@ branch  3 taken 100%
         -: 8948:    }
         -: 8949:  putc('\n', stderr);
         -: 8950:#endif
-     4598: 8951:  for (ri = 0; ri < dfa->tindex; ++ri)
+     4606: 8951:  for (ri = 0; ri < dfa->tindex; ++ri)
 branch  0 taken 100%
 branch  1 taken 0% (fallthrough)
         -: 8952:    {
-     4598: 8953:      switch (t = dfa->tokens[ri])
+     4606: 8953:      switch (t = dfa->tokens[ri])
 branch  0 taken 0%
 branch  1 taken 3%
 branch  2 taken 1%
 branch  3 taken 2%
 branch  4 taken 1%
 branch  5 taken 1%
-branch  6 taken 47%
+branch  6 taken 46%
 branch  7 taken 46%
         -: 8954:	{
     #####: 8955:	case LPAREN:
         -: 8956:	case RPAREN:
     #####: 8957:	  goto done;		/* "cannot happen" */
-      150: 8958:	case EMPTY:
+      152: 8958:	case EMPTY:
         -: 8959:	case BEGLINE:
         -: 8960:	case ENDLINE:
         -: 8961:	case BEGWORD:
@@ -12255,9 +12255,9 @@ branch  7 taken 46%
         -: 8963:	case LIMWORD:
         -: 8964:	case NOTLIMWORD:
         -: 8965:	case BACKREF:
-      150: 8966:	  resetmust(mp);
+      152: 8966:	  resetmust(mp);
 call    0 returned 100%
-      150: 8967:	  break;
+      152: 8967:	  break;
        60: 8968:	case STAR:
         -: 8969:	case QMARK:
        60: 8970:	  if (mp <= musts)
@@ -12268,9 +12268,9 @@ branch  1 taken 100%
        60: 8973:	  resetmust(mp);
 call    0 returned 100%
        60: 8974:	  break;
-       94: 8975:	case OR:
+       96: 8975:	case OR:
         -: 8976:	case ORTOP:
-       94: 8977:	  if (mp < &musts[2])
+       96: 8977:	  if (mp < &musts[2])
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 8978:	    goto done;		/* "cannot happen" */
@@ -12280,54 +12280,54 @@ branch  1 taken 100%
         -: 8982:	    must *rmp;
         -: 8983:	    int j, ln, rn, n;
         -: 8984:
-       94: 8985:	    rmp = --mp;
-       94: 8986:	    lmp = --mp;
+       96: 8985:	    rmp = --mp;
+       96: 8986:	    lmp = --mp;
         -: 8987:	    /* Guaranteed to be.  Unlikely, but. . . */
-       94: 8988:	    if (strcmp(lmp->is, rmp->is) != 0)
-branch  0 taken 33% (fallthrough)
-branch  1 taken 67%
+       96: 8988:	    if (strcmp(lmp->is, rmp->is) != 0)
+branch  0 taken 32% (fallthrough)
+branch  1 taken 68%
        31: 8989:	      lmp->is[0] = '\0';
         -: 8990:	    /* Left side--easy */
-       94: 8991:	    i = 0;
-      127: 8992:	    while (lmp->left[i] != '\0' && lmp->left[i] == rmp->left[i])
+       96: 8991:	    i = 0;
+      129: 8992:	    while (lmp->left[i] != '\0' && lmp->left[i] == rmp->left[i])
 branch  0 taken 31% (fallthrough)
 branch  1 taken 69%
 branch  2 taken 82%
 branch  3 taken 18% (fallthrough)
        33: 8993:	      ++i;
-       94: 8994:	    lmp->left[i] = '\0';
+       96: 8994:	    lmp->left[i] = '\0';
         -: 8995:	    /* Right side */
-       94: 8996:	    ln = strlen(lmp->right);
-       94: 8997:	    rn = strlen(rmp->right);
-       94: 8998:	    n = ln;
-       94: 8999:	    if (n > rn)
+       96: 8996:	    ln = strlen(lmp->right);
+       96: 8997:	    rn = strlen(rmp->right);
+       96: 8998:	    n = ln;
+       96: 8999:	    if (n > rn)
 branch  0 taken 5% (fallthrough)
 branch  1 taken 95%
         5: 9000:	      n = rn;
-      94*: 9001:	    for (i = 0; i < n; ++i)
+      96*: 9001:	    for (i = 0; i < n; ++i)
 branch  0 taken 7%
 branch  1 taken 93% (fallthrough)
         7: 9002:	      if (lmp->right[ln - i - 1] != rmp->right[rn - i - 1])
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
         7: 9003:		break;
-      94*: 9004:	    for (j = 0; j < i; ++j)
+      96*: 9004:	    for (j = 0; j < i; ++j)
 branch  0 taken 0%
 branch  1 taken 100% (fallthrough)
     #####: 9005:	      lmp->right[j] = lmp->right[(ln - i) + j];
-       94: 9006:	    lmp->right[j] = '\0';
-       94: 9007:	    new = inboth(lmp->in, rmp->in);
+       96: 9006:	    lmp->right[j] = '\0';
+       96: 9007:	    new = inboth(lmp->in, rmp->in);
 call    0 returned 100%
-       94: 9008:	    if (new == NULL)
+       96: 9008:	    if (new == NULL)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 9009:	      goto done;
-       94: 9010:	    freelist(lmp->in);
+       96: 9010:	    freelist(lmp->in);
 call    0 returned 100%
-       94: 9011:	    free((char *) lmp->in);
-       94: 9012:	    lmp->in = new;
+       96: 9011:	    free((char *) lmp->in);
+       96: 9012:	    lmp->in = new;
         -: 9013:	  }
-       94: 9014:	  break;
+       96: 9014:	  break;
        20: 9015:	case PLUS:
        20: 9016:	  if (mp <= musts)
 branch  0 taken 0% (fallthrough)
@@ -12353,8 +12353,8 @@ branch  0 taken 77% (fallthrough)
 branch  1 taken 23%
        20: 9028:	    exact = 1;
        26: 9029:	  goto done;
-     2139: 9030:	case CAT:
-     2139: 9031:	  if (mp < &musts[2])
+     2141: 9030:	case CAT:
+     2141: 9031:	  if (mp < &musts[2])
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 9032:	    goto done;		/* "cannot happen" */
@@ -12362,18 +12362,18 @@ branch  1 taken 100%
         -: 9034:	    must *lmp;
         -: 9035:	    must *rmp;
         -: 9036:
-     2139: 9037:	    rmp = --mp;
-     2139: 9038:	    lmp = --mp;
+     2141: 9037:	    rmp = --mp;
+     2141: 9038:	    lmp = --mp;
         -: 9039:	    /* In.  Everything in left, plus everything in
         -: 9040:	       right, plus catenation of
         -: 9041:	       left's right and right's left. */
-     2139: 9042:	    lmp->in = addlists(lmp->in, rmp->in);
+     2141: 9042:	    lmp->in = addlists(lmp->in, rmp->in);
 call    0 returned 100%
-     2139: 9043:	    if (lmp->in == NULL)
+     2141: 9043:	    if (lmp->in == NULL)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 9044:	      goto done;
-     2139: 9045:	    if (lmp->right[0] != '\0' &&
+     2141: 9045:	    if (lmp->right[0] != '\0' &&
 branch  0 taken 91% (fallthrough)
 branch  1 taken 9%
      1946: 9046:		rmp->left[0] != '\0')
@@ -12404,7 +12404,7 @@ branch  1 taken 100%
     #####: 9060:		  goto done;
         -: 9061:	      }
         -: 9062:	    /* Left-hand */
-     2139: 9063:	    if (lmp->is[0] != '\0')
+     2141: 9063:	    if (lmp->is[0] != '\0')
 branch  0 taken 24% (fallthrough)
 branch  1 taken 76%
         -: 9064:	      {
@@ -12417,18 +12417,18 @@ branch  1 taken 100%
     #####: 9068:		  goto done;
         -: 9069:	      }
         -: 9070:	    /* Right-hand */
-     2139: 9071:	    if (rmp->is[0] == '\0')
+     2141: 9071:	    if (rmp->is[0] == '\0')
 branch  0 taken 9% (fallthrough)
 branch  1 taken 91%
-      199: 9072:	      lmp->right[0] = '\0';
-     2139: 9073:	    lmp->right = icatalloc(lmp->right, rmp->right);
+      201: 9072:	      lmp->right[0] = '\0';
+     2141: 9073:	    lmp->right = icatalloc(lmp->right, rmp->right);
 call    0 returned 100%
-     2139: 9074:	    if (lmp->right == NULL)
+     2141: 9074:	    if (lmp->right == NULL)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 9075:	      goto done;
         -: 9076:	    /* Guaranteed to be */
-     2139: 9077:	    if (lmp->is[0] != '\0' && rmp->is[0] != '\0')
+     2141: 9077:	    if (lmp->is[0] != '\0' && rmp->is[0] != '\0')
 branch  0 taken 24% (fallthrough)
 branch  1 taken 76%
 branch  2 taken 97% (fallthrough)
@@ -12442,30 +12442,30 @@ branch  1 taken 100%
     #####: 9081:		  goto done;
         -: 9082:	      }
         -: 9083:	    else
-     1639: 9084:	      lmp->is[0] = '\0';
+     1641: 9084:	      lmp->is[0] = '\0';
         -: 9085:	  }
-     2139: 9086:	  break;
-     2109: 9087:	default:
-     2109: 9088:	  if (t < END)
+     2141: 9086:	  break;
+     2111: 9087:	default:
+     2111: 9088:	  if (t < END)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
         -: 9089:	    {
         -: 9090:	      /* "cannot happen" */
     #####: 9091:	      goto done;
         -: 9092:	    }
-     2109: 9093:	  else if (t == '\0')
+     2111: 9093:	  else if (t == '\0')
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
         -: 9094:	    {
         -: 9095:	      /* not on *my* shift */
     #####: 9096:	      goto done;
         -: 9097:	    }
-     2109: 9098:	  else if (t >= CSET)
+     2111: 9098:	  else if (t >= CSET)
 branch  0 taken 3% (fallthrough)
 branch  1 taken 97%
         -: 9099:	    {
         -: 9100:	      /* easy enough */
-       62: 9101:	      resetmust(mp);
+       64: 9101:	      resetmust(mp);
 call    0 returned 100%
         -: 9102:	    }
         -: 9103:	  else
@@ -12482,7 +12482,7 @@ branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 9111:		goto done;
         -: 9112:	    }
-     2109: 9113:	  break;
+     2111: 9113:	  break;
         -: 9114:	}
         -: 9115:#ifdef DEBUG
         -: 9116:      fprintf(stderr, " node: %d:", ri);
@@ -12494,7 +12494,7 @@ branch  1 taken 100%
         -: 9122:      fprintf(stderr, "  left: \"%s\"\n", mp->left);
         -: 9123:      fprintf(stderr, "  right: \"%s\"\n", mp->right);
         -: 9124:#endif
-     4572: 9125:      ++mp;
+     4580: 9125:      ++mp;
         -: 9126:    }
     #####: 9127: done:
        26: 9128:  if (strlen(result))
@@ -12509,19 +12509,19 @@ branch  1 taken 50%
        13: 9135:      dfa->musts = dm;
         -: 9136:    }
        26: 9137:  mp = musts;
-     4676: 9138:  for (i = 0; i <= dfa->tindex; ++i)
+     4684: 9138:  for (i = 0; i <= dfa->tindex; ++i)
 branch  0 taken 99%
 branch  1 taken 1% (fallthrough)
         -: 9139:    {
-     4650: 9140:      freelist(mp[i].in);
+     4658: 9140:      freelist(mp[i].in);
 call    0 returned 100%
-     4650: 9141:      ifree((char *) mp[i].in);
+     4658: 9141:      ifree((char *) mp[i].in);
 call    0 returned 100%
-     4650: 9142:      ifree(mp[i].left);
+     4658: 9142:      ifree(mp[i].left);
 call    0 returned 100%
-     4650: 9143:      ifree(mp[i].right);
+     4658: 9143:      ifree(mp[i].right);
 call    0 returned 100%
-     4650: 9144:      ifree(mp[i].is);
+     4658: 9144:      ifree(mp[i].is);
 call    0 returned 100%
         -: 9145:    }
        26: 9146:  free((char *) mp);
@@ -13257,8 +13257,8 @@ branch  1 taken 1% (fallthrough)
         -: 9681:
         -: 9682:/* Fast boyer-moore search. */
         -: 9683:static char *
-function bmexec called 58 returned 100% blocks executed 95%
-       58: 9684:bmexec(kws, text, size)
+function bmexec called 60 returned 100% blocks executed 93%
+       60: 9684:bmexec(kws, text, size)
         -: 9685:     kwset_t kws;
         -: 9686:     char *text;
         -: 9687:     size_t size;
@@ -13268,17 +13268,17 @@ function bmexec called 58 returned 100% blocks executed 95%
         -: 9691:  register char *ep, *sp, *tp;
         -: 9692:  register int d, gc, i, len, md2;
         -: 9693:
-       58: 9694:  kwset = (struct kwset *) kws;
-       58: 9695:  len = kwset->mind;
+       60: 9694:  kwset = (struct kwset *) kws;
+       60: 9695:  len = kwset->mind;
         -: 9696:
-       58: 9697:  if (len == 0)
+       60: 9697:  if (len == 0)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 9698:    return text;
-       58: 9699:  if (len > size)
-branch  0 taken 3% (fallthrough)
-branch  1 taken 97%
-        2: 9700:    return 0;
+       60: 9699:  if (len > size)
+branch  0 taken 7% (fallthrough)
+branch  1 taken 93%
+        4: 9700:    return 0;
        56: 9701:  if (len == 1)
 branch  0 taken 12% (fallthrough)
 branch  1 taken 88%
@@ -13292,39 +13292,39 @@ branch  1 taken 88%
         -: 9709:
         -: 9710:  /* Significance of 12: 1 (initial offset) + 10 (skip loop) + 1 (md2). */
        49: 9711:  if (size > 12 * len)
-branch  0 taken 49% (fallthrough)
-branch  1 taken 51%
+branch  0 taken 47% (fallthrough)
+branch  1 taken 53%
         -: 9712:    /* 11 is not a bug, the initial offset happens only once. */
-       24: 9713:    for (ep = text + size - 11 * len;;)
+       23: 9713:    for (ep = text + size - 11 * len;;)
         -: 9714:      {
-     1714: 9715:	while (tp <= ep)
+       47: 9715:	while (tp <= ep)
 branch  0 taken 100%
-branch  1 taken 1% (fallthrough)
+branch  1 taken 0% (fallthrough)
         -: 9716:	  {
-     1713: 9717:	    d = d1[U(tp[-1])], tp += d;
-     1713: 9718:	    d = d1[U(tp[-1])], tp += d;
-     1713: 9719:	    if (d == 0)
-branch  0 taken 2% (fallthrough)
-branch  1 taken 98%
+       47: 9717:	    d = d1[U(tp[-1])], tp += d;
+       47: 9718:	    d = d1[U(tp[-1])], tp += d;
+       47: 9719:	    if (d == 0)
+branch  0 taken 55% (fallthrough)
+branch  1 taken 45%
        26: 9720:	      goto found;
-     1687: 9721:	    d = d1[U(tp[-1])], tp += d;
-     1687: 9722:	    d = d1[U(tp[-1])], tp += d;
-     1687: 9723:	    d = d1[U(tp[-1])], tp += d;
-     1687: 9724:	    if (d == 0)
-branch  0 taken 1% (fallthrough)
-branch  1 taken 100%
+       21: 9721:	    d = d1[U(tp[-1])], tp += d;
+       21: 9722:	    d = d1[U(tp[-1])], tp += d;
+       21: 9723:	    d = d1[U(tp[-1])], tp += d;
+       21: 9724:	    if (d == 0)
+branch  0 taken 24% (fallthrough)
+branch  1 taken 76%
         5: 9725:	      goto found;
-     1682: 9726:	    d = d1[U(tp[-1])], tp += d;
-     1682: 9727:	    d = d1[U(tp[-1])], tp += d;
-     1682: 9728:	    d = d1[U(tp[-1])], tp += d;
-     1682: 9729:	    if (d == 0)
+       16: 9726:	    d = d1[U(tp[-1])], tp += d;
+       16: 9727:	    d = d1[U(tp[-1])], tp += d;
+       16: 9728:	    d = d1[U(tp[-1])], tp += d;
+       16: 9729:	    if (d == 0)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
     #####: 9730:	      goto found;
-     1682: 9731:	    d = d1[U(tp[-1])], tp += d;
-     1682: 9732:	    d = d1[U(tp[-1])], tp += d;
+       16: 9731:	    d = d1[U(tp[-1])], tp += d;
+       16: 9732:	    d = d1[U(tp[-1])], tp += d;
         -: 9733:	  }
-        1: 9734:	break;
+    #####: 9734:	break;
        31: 9735:      found:
        31: 9736:	if (U(tp[-2]) == gc)
 branch  0 taken 74% (fallthrough)
@@ -13348,18 +13348,18 @@ branch  1 taken 0%
         -: 9747:     carefully avoid ever producing an out-of-bounds pointer. */
        26: 9748:  ep = text + size;
        26: 9749:  d = d1[U(tp[-1])];
-       63: 9750:  while (d <= ep - tp)
+       59: 9750:  while (d <= ep - tp)
 branch  0 taken 90%
 branch  1 taken 10% (fallthrough)
         -: 9751:    {
-       57: 9752:      d = d1[U((tp += d)[-1])];
-       57: 9753:      if (d != 0)
-branch  0 taken 58% (fallthrough)
-branch  1 taken 42%
-       33: 9754:	continue;
-       24: 9755:      if (tp[-2] == gc)
-branch  0 taken 83% (fallthrough)
-branch  1 taken 17%
+       53: 9752:      d = d1[U((tp += d)[-1])];
+       53: 9753:      if (d != 0)
+branch  0 taken 51% (fallthrough)
+branch  1 taken 49%
+       27: 9754:	continue;
+       26: 9755:      if (tp[-2] == gc)
+branch  0 taken 77% (fallthrough)
+branch  1 taken 23%
         -: 9756:	{
        40: 9757:	  for (i = 3; i <= len && U(tp[-i]) == U(sp[-i]); ++i)
 branch  0 taken 50% (fallthrough)
@@ -13372,7 +13372,7 @@ branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
        20: 9760:	    return tp - len;
         -: 9761:	}
-        4: 9762:      d = md2;
+        6: 9762:      d = md2;
         -: 9763:    }
         -: 9764:
         6: 9765:  return 0;
@@ -13380,8 +13380,8 @@ branch  1 taken 0%
         -: 9767:
         -: 9768:/* Hairy multiple string search. */
         -: 9769:static char *
-function cwexec called 36 returned 100% blocks executed 93%
-       36: 9770:cwexec(kws, text, len, kwsmatch)
+function cwexec called 84 returned 100% blocks executed 93%
+       84: 9770:cwexec(kws, text, len, kwsmatch)
         -: 9771:     kwset_t kws;
         -: 9772:     char *text;
         -: 9773:     size_t len;
@@ -13397,83 +13397,83 @@ function cwexec called 36 returned 100% blocks executed 93%
         -: 9783:  register char *trans;
         -: 9784:
         -: 9785:  /* Initialize register copies and look for easy ways out. */
-       36: 9786:  kwset = (struct kwset *) kws;
-       36: 9787:  if (len < kwset->mind)
-branch  0 taken 6% (fallthrough)
-branch  1 taken 94%
+       84: 9786:  kwset = (struct kwset *) kws;
+       84: 9787:  if (len < kwset->mind)
+branch  0 taken 2% (fallthrough)
+branch  1 taken 98%
         2: 9788:    return 0;
-       34: 9789:  next = kwset->next;
-       34: 9790:  delta = kwset->delta;
-       34: 9791:  trans = kwset->trans;
-       34: 9792:  lim = text + len;
-       34: 9793:  end = text;
-       34: 9794:  if ((d = kwset->mind) != 0)
+       82: 9789:  next = kwset->next;
+       82: 9790:  delta = kwset->delta;
+       82: 9791:  trans = kwset->trans;
+       82: 9792:  lim = text + len;
+       82: 9793:  end = text;
+       82: 9794:  if ((d = kwset->mind) != 0)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-       34: 9795:    mch = 0;
+       82: 9795:    mch = 0;
         -: 9796:  else
         -: 9797:    {
     #####: 9798:      mch = text, accept = kwset->trie;
     #####: 9799:      goto match;
         -: 9800:    }
         -: 9801:
-       34: 9802:  if (len >= 4 * kwset->mind)
-branch  0 taken 91% (fallthrough)
-branch  1 taken 9%
-       31: 9803:    qlim = lim - 4 * kwset->mind;
+       82: 9802:  if (len >= 4 * kwset->mind)
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+       79: 9803:    qlim = lim - 4 * kwset->mind;
         -: 9804:  else
         3: 9805:    qlim = 0;
         -: 9806:
-       44: 9807:  while (lim - end >= d)
-branch  0 taken 98%
-branch  1 taken 2% (fallthrough)
+       93: 9807:  while (lim - end >= d)
+branch  0 taken 99%
+branch  1 taken 1% (fallthrough)
         -: 9808:    {
-       43: 9809:      if (qlim && end <= qlim)
-branch  0 taken 91% (fallthrough)
-branch  1 taken 9%
-branch  2 taken 95% (fallthrough)
-branch  3 taken 5%
+       92: 9809:      if (qlim && end <= qlim)
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+branch  2 taken 97% (fallthrough)
+branch  3 taken 3%
         -: 9810:	{
-       37: 9811:	  end += d - 1;
-       52: 9812:	  while ((d = delta[c = *end]) && end < qlim)
-branch  0 taken 31% (fallthrough)
-branch  1 taken 69%
-branch  2 taken 94%
-branch  3 taken 6% (fallthrough)
+       85: 9811:	  end += d - 1;
+      119: 9812:	  while ((d = delta[c = *end]) && end < qlim)
+branch  0 taken 29% (fallthrough)
+branch  1 taken 71%
+branch  2 taken 97%
+branch  3 taken 3% (fallthrough)
         -: 9813:	    {
-       15: 9814:	      end += d;
-       15: 9815:	      end += delta[(unsigned char) *end];
-       15: 9816:	      end += delta[(unsigned char) *end];
+       34: 9814:	      end += d;
+       34: 9815:	      end += delta[(unsigned char) *end];
+       34: 9816:	      end += delta[(unsigned char) *end];
         -: 9817:	    }
-       37: 9818:	  ++end;
+       85: 9818:	  ++end;
         -: 9819:	}
         -: 9820:      else
-        6: 9821:	d = delta[c = (end += d)[-1]];
-       43: 9822:      if (d)
-branch  0 taken 7% (fallthrough)
-branch  1 taken 93%
-        3: 9823:	continue;
-       40: 9824:      beg = end - 1;
-       40: 9825:      trie = next[c];
-       40: 9826:      if (trie->accepting)
-branch  0 taken 45% (fallthrough)
-branch  1 taken 55%
+        7: 9821:	d = delta[c = (end += d)[-1]];
+       92: 9822:      if (d)
+branch  0 taken 4% (fallthrough)
+branch  1 taken 96%
+        4: 9823:	continue;
+       88: 9824:      beg = end - 1;
+       88: 9825:      trie = next[c];
+       88: 9826:      if (trie->accepting)
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
         -: 9827:	{
-       18: 9828:	  mch = beg;
-       18: 9829:	  accept = trie;
+       66: 9828:	  mch = beg;
+       66: 9829:	  accept = trie;
         -: 9830:	}
-       40: 9831:      d = trie->shift;
-       74: 9832:      while (beg > text)
-branch  0 taken 59%
-branch  1 taken 41% (fallthrough)
+       88: 9831:      d = trie->shift;
+      122: 9832:      while (beg > text)
+branch  0 taken 51%
+branch  1 taken 49% (fallthrough)
         -: 9833:	{
-       44: 9834:	  c = trans ? trans[(unsigned char) *--beg] : *--beg;
-branch  0 taken 27% (fallthrough)
-branch  1 taken 73%
-       44: 9835:	  tree = trie->links;
-       51: 9836:	  while (tree && c != tree->label)
-branch  0 taken 80% (fallthrough)
-branch  1 taken 20%
+       62: 9834:	  c = trans ? trans[(unsigned char) *--beg] : *--beg;
+branch  0 taken 19% (fallthrough)
+branch  1 taken 81%
+       62: 9835:	  tree = trie->links;
+       69: 9836:	  while (tree && c != tree->label)
+branch  0 taken 59% (fallthrough)
+branch  1 taken 41%
 branch  2 taken 17%
 branch  3 taken 83% (fallthrough)
         7: 9837:	    if (c < tree->label)
@@ -13482,9 +13482,9 @@ branch  1 taken 43%
         4: 9838:	      tree = tree->llink;
         -: 9839:	    else
         3: 9840:	      tree = tree->rlink;
-       44: 9841:	  if (tree)
-branch  0 taken 77% (fallthrough)
-branch  1 taken 23%
+       62: 9841:	  if (tree)
+branch  0 taken 55% (fallthrough)
+branch  1 taken 45%
         -: 9842:	    {
        34: 9843:	      trie = tree->trie;
        34: 9844:	      if (trie->accepting)
@@ -13496,29 +13496,29 @@ branch  1 taken 47%
         -: 9848:		}
         -: 9849:	    }
         -: 9850:	  else
-       10: 9851:	    break;
+       28: 9851:	    break;
        34: 9852:	  d = trie->shift;
         -: 9853:	}
-       40: 9854:      if (mch)
-branch  0 taken 82% (fallthrough)
-branch  1 taken 18%
-       33: 9855:	goto match;
+       88: 9854:      if (mch)
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+       81: 9855:	goto match;
         -: 9856:    }
         1: 9857:  return 0;
         -: 9858:
-       33: 9859: match:
+       81: 9859: match:
         -: 9860:  /* Given a known match, find the longest possible match anchored
         -: 9861:     at or before its starting point.  This is nearly a verbatim
         -: 9862:     copy of the preceding main search loops. */
-       37: 9863:  if (lim - mch > kwset->maxd)
-branch  0 taken 89% (fallthrough)
-branch  1 taken 11%
-       33: 9864:    lim = mch + kwset->maxd;
-       37: 9865:  lmch = 0;
-       37: 9866:  d = 1;
-       52: 9867:  while (lim - end >= d)
-branch  0 taken 37%
-branch  1 taken 63% (fallthrough)
+       85: 9863:  if (lim - mch > kwset->maxd)
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+       81: 9864:    lim = mch + kwset->maxd;
+       85: 9865:  lmch = 0;
+       85: 9866:  d = 1;
+      100: 9867:  while (lim - end >= d)
+branch  0 taken 19%
+branch  1 taken 81% (fallthrough)
         -: 9868:    {
        19: 9869:      if ((d = delta[c = (end += d)[-1]]) != 0)
 branch  0 taken 32% (fallthrough)
@@ -13593,15 +13593,15 @@ branch  1 taken 100%
     #####: 9911:	d = 1;
         -: 9912:    }
         -: 9913:
-       33: 9914:  if (kwsmatch)
+       81: 9914:  if (kwsmatch)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
         -: 9915:    {
-       33: 9916:      kwsmatch->index = accept->accepting / 2;
-       33: 9917:      kwsmatch->beg[0] = mch;
-       33: 9918:      kwsmatch->size[0] = accept->depth;
+       81: 9916:      kwsmatch->index = accept->accepting / 2;
+       81: 9917:      kwsmatch->beg[0] = mch;
+       81: 9918:      kwsmatch->size[0] = accept->depth;
         -: 9919:    }
-       33: 9920:  return mch;
+       81: 9920:  return mch;
         -: 9921:}
         -: 9922:  
         -: 9923:/* Search through the given text for a match of any member of the
@@ -13612,8 +13612,8 @@ branch  1 taken 0%
         -: 9928:   in the referenced location the index number of the particular
         -: 9929:   keyword matched. */
         -: 9930:char *
-function kwsexec called 94 returned 100% blocks executed 100%
-       94: 9931:kwsexec(kws, text, size, kwsmatch)
+function kwsexec called 144 returned 100% blocks executed 100%
+      144: 9931:kwsexec(kws, text, size, kwsmatch)
         -: 9932:     kwset_t kws;
         -: 9933:     char *text;
         -: 9934:     size_t size;
@@ -13622,29 +13622,29 @@ function kwsexec called 94 returned 100% blocks executed 100%
         -: 9937:  struct kwset *kwset;
         -: 9938:  char *ret;
         -: 9939:
-       94: 9940:  kwset = (struct kwset *) kws;
-       94: 9941:  if (kwset->words == 1 && kwset->trans == 0)
-branch  0 taken 68% (fallthrough)
-branch  1 taken 32%
+      144: 9940:  kwset = (struct kwset *) kws;
+      144: 9941:  if (kwset->words == 1 && kwset->trans == 0)
+branch  0 taken 46% (fallthrough)
+branch  1 taken 54%
 branch  2 taken 91% (fallthrough)
 branch  3 taken 9%
         -: 9942:    {
-       58: 9943:      ret = bmexec(kws, text, size);
+       60: 9943:      ret = bmexec(kws, text, size);
 call    0 returned 100%
-       58: 9944:      if (kwsmatch != 0 && ret != 0)
+       60: 9944:      if (kwsmatch != 0 && ret != 0)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-branch  2 taken 83% (fallthrough)
-branch  3 taken 17%
+branch  2 taken 80% (fallthrough)
+branch  3 taken 20%
         -: 9945:	{
        48: 9946:	  kwsmatch->index = 0;
        48: 9947:	  kwsmatch->beg[0] = ret;
        48: 9948:	  kwsmatch->size[0] = kwset->mind;
         -: 9949:	}
-       58: 9950:      return ret;
+       60: 9950:      return ret;
         -: 9951:    }
         -: 9952:  else
-       36: 9953:    return cwexec(kws, text, size, kwsmatch);
+       84: 9953:    return cwexec(kws, text, size, kwsmatch);
 call    0 returned 100%
         -: 9954:}
         -: 9955:
@@ -14382,49 +14382,49 @@ call    0 returned 100%
        22:10634:  if (match_words || match_lines)
 branch  0 taken 95% (fallthrough)
 branch  1 taken 5%
-branch  2 taken 0% (fallthrough)
-branch  3 taken 100%
-        1:10635:    {
+branch  2 taken 5% (fallthrough)
+branch  3 taken 95%
+        2:10635:    {
         -:10636:      /* In the whole-word case, we use the pattern:
         -:10637:	 (^|[^A-Za-z_])(userpattern)([^A-Za-z_]|$).
         -:10638:	 In the whole-line case, we use the pattern:
         -:10639:	 ^(userpattern)$.
         -:10640:	 BUG: Using [A-Za-z_] is locale-dependent!  */
         -:10641:
-        1:10642:      char *n = malloc(size + 50);
+        2:10642:      char *n = malloc(size + 50);
 call    0 returned 100%
-        1:10643:      int i = 0;
+        2:10643:      int i = 0;
         -:10644:
-        1:10645:      strcpy(n, "");
+        2:10645:      strcpy(n, "");
         -:10646:
-        1:10647:      if (match_lines)
-branch  0 taken 100% (fallthrough)
-branch  1 taken 0%
+        2:10647:      if (match_lines)
+branch  0 taken 50% (fallthrough)
+branch  1 taken 50%
         1:10648:	strcpy(n, "^\\(");
-        1:10649:      if (match_words)
-branch  0 taken 100% (fallthrough)
-branch  1 taken 0%
+        2:10649:      if (match_words)
+branch  0 taken 50% (fallthrough)
+branch  1 taken 50%
         1:10650:	strcpy(n, "\\(^\\|[^0-9A-Za-z_]\\)\\(");
         -:10651:
-        1:10652:      i = strlen(n);
-        1:10653:      bcopy(pattern, n + i, size);
-        1:10654:      i += size;
+        2:10652:      i = strlen(n);
+        2:10653:      bcopy(pattern, n + i, size);
+        2:10654:      i += size;
         -:10655:
-        1:10656:      if (match_words)
-branch  0 taken 100% (fallthrough)
-branch  1 taken 0%
+        2:10656:      if (match_words)
+branch  0 taken 50% (fallthrough)
+branch  1 taken 50%
         1:10657:	strcpy(n + i, "\\)\\([^0-9A-Za-z_]\\|$\\)");
-        1:10658:      if (match_lines)
-branch  0 taken 100% (fallthrough)
-branch  1 taken 0%
+        2:10658:      if (match_lines)
+branch  0 taken 50% (fallthrough)
+branch  1 taken 50%
         1:10659:	strcpy(n + i, "\\)$");
         -:10660:
-        1:10661:      i += strlen(n + i);
-        1:10662:      dfacomp(n, i, &dfa_1, 1);
+        2:10661:      i += strlen(n + i);
+        2:10662:      dfacomp(n, i, &dfa_1, 1);
 call    0 returned 100%
         -:10663:    }
         -:10664:  else
-       21:10665:    dfacomp(pattern, size, &dfa_1, 1);
+       20:10665:    dfacomp(pattern, size, &dfa_1, 1);
 call    0 returned 100%
         -:10666:
        22:10667:  kwsmusts();
@@ -14492,9 +14492,9 @@ call    0 returned 100%
         2:10711:      strcpy(n, "");
         -:10712:
         2:10713:      if (match_lines)
-branch  0 taken 100% (fallthrough)
-branch  1 taken 0%
-        2:10714:	strcpy(n, "^(");
+branch  0 taken 50% (fallthrough)
+branch  1 taken 50%
+        1:10714:	strcpy(n, "^(");
         2:10715:      if (match_words)
 branch  0 taken 50% (fallthrough)
 branch  1 taken 50%
@@ -14509,9 +14509,9 @@ branch  0 taken 50% (fallthrough)
 branch  1 taken 50%
         1:10723:	strcpy(n + i, ")([^0-9A-Za-z_]|$)");
         2:10724:      if (match_lines)
-branch  0 taken 100% (fallthrough)
-branch  1 taken 0%
-        2:10725:	strcpy(n + i, ")$");
+branch  0 taken 50% (fallthrough)
+branch  1 taken 50%
+        1:10725:	strcpy(n + i, ")$");
         -:10726:
         2:10727:      i += strlen(n + i);
         2:10728:      dfacomp(n, i, &dfa_1, 1);
@@ -14627,43 +14627,43 @@ branch  2 taken 66%
         -:10800:	{
        25:10801:	  len = regs.end[0] - start;
        25:10802:	  if (!match_lines && !match_words || match_lines && len == end - beg)
-branch  0 taken 76% (fallthrough)
-branch  1 taken 24%
-branch  2 taken 0% (fallthrough)
-branch  3 taken 100%
-branch  4 taken 100% (fallthrough)
-branch  5 taken 0%
-branch  6 taken 17% (fallthrough)
-branch  7 taken 83%
-       20:10803:	    goto success;
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+branch  2 taken 25% (fallthrough)
+branch  3 taken 75%
+branch  4 taken 14% (fallthrough)
+branch  5 taken 86%
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+       19:10803:	    goto success;
         -:10804:	  /* If -w, check if the match aligns with word boundaries.
         -:10805:	     We do this iteratively because:
         -:10806:	     (a) the line may contain more than one occurence of the pattern, and
         -:10807:	     (b) Several alternatives in the pattern might be valid at a given
         -:10808:	     point, and we may need to consider a shorter one to find a word
         -:10809:	     boundary. */
-        5:10810:	  if (match_words)
+        6:10810:	  if (match_words)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-       17:10811:	    while (start >= 0)
+       19:10811:	    while (start >= 0)
 branch  0 taken 100%
 branch  1 taken 0% (fallthrough)
         -:10812:	      {
-       12:10813:		if ((start == 0 || !WCHAR(beg[start - 1]))
-branch  0 taken 67% (fallthrough)
-branch  1 taken 33%
+       13:10813:		if ((start == 0 || !WCHAR(beg[start - 1]))
+branch  0 taken 62% (fallthrough)
+branch  1 taken 38%
 branch  2 taken 50% (fallthrough)
 branch  3 taken 50%
 branch  4 taken 100% (fallthrough)
 branch  5 taken 0%
-        8:10814:		    && (len == end - beg || !WCHAR(beg[start + len])))
-branch  0 taken 100% (fallthrough)
-branch  1 taken 0%
+        9:10814:		    && (len == end - beg || !WCHAR(beg[start + len])))
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
 branch  2 taken 62% (fallthrough)
 branch  3 taken 38%
 branch  4 taken 100% (fallthrough)
 branch  5 taken 0%
-        5:10815:		  goto success;
+        6:10815:		  goto success;
         7:10816:		if (len > 0)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
@@ -14748,8 +14748,8 @@ call    0 never executed
         3:10869:}
         -:10870:
         -:10871:static char *
-function Fexecute called 34 returned 100% blocks executed 64%
-       34:10872:Fexecute(buf, size, endp)
+function Fexecute called 18 returned 100% blocks executed 95%
+       18:10872:Fexecute(buf, size, endp)
         -:10873:     char *buf;
         -:10874:     size_t size;
         -:10875:     char **endp;
@@ -14758,85 +14758,85 @@ function Fexecute called 34 returned 100% blocks executed 64%
         -:10878:  register size_t len;
         -:10879:  struct kwsmatch kwsmatch;
         -:10880:
-       40:10881:  for (beg = buf; beg <= buf + size; ++beg)
+       88:10881:  for (beg = buf; beg <= buf + size; ++beg)
 branch  0 taken 100%
 branch  1 taken 0% (fallthrough)
         -:10882:    {
-       40:10883:      if (!(beg = kwsexec(kwset, beg, buf + size - beg, &kwsmatch)))
+       88:10883:      if (!(beg = kwsexec(kwset, beg, buf + size - beg, &kwsmatch)))
 call    0 returned 100%
-branch  1 taken 12% (fallthrough)
-branch  2 taken 88%
+branch  1 taken 6% (fallthrough)
+branch  2 taken 94%
         5:10884:	return 0;
-       35:10885:      len = kwsmatch.size[0];
-       35:10886:      if (match_lines)
-branch  0 taken 23% (fallthrough)
-branch  1 taken 77%
+       83:10885:      len = kwsmatch.size[0];
+       83:10886:      if (match_lines)
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
         -:10887:	{
-        8:10888:	  if (beg > buf && beg[-1] != '\n')
+       66:10888:	  if (beg > buf && beg[-1] != '\n')
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+branch  2 taken 75% (fallthrough)
+branch  3 taken 25%
+       49:10889:	    continue;
+       17:10890:	  if (beg + len < buf + size && beg[len] != '\n')
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-branch  2 taken 38% (fallthrough)
-branch  3 taken 62%
-        3:10889:	    continue;
-        5:10890:	  if (beg + len < buf + size && beg[len] != '\n')
-branch  0 taken 100% (fallthrough)
-branch  1 taken 0%
-branch  2 taken 60% (fallthrough)
-branch  3 taken 40%
-        3:10891:	    continue;
-        2:10892:	  goto success;
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+       17:10891:	    continue;
+    #####:10892:	  goto success;
         -:10893:	}
-       27:10894:      else if (match_words)
-branch  0 taken 0% (fallthrough)
-branch  1 taken 100%
-    #####:10895:	for (try = beg; len && try;)
-branch  0 never executed (fallthrough)
-branch  1 never executed
-branch  2 never executed
-branch  3 never executed
+       17:10894:      else if (match_words)
+branch  0 taken 47% (fallthrough)
+branch  1 taken 53%
+       10:10895:	for (try = beg; len && try;)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 80%
+branch  3 taken 20%
         -:10896:	  {
-    #####:10897:	    if (try > buf && WCHAR((unsigned char) try[-1]))
-branch  0 never executed (fallthrough)
-branch  1 never executed
-branch  2 never executed (fallthrough)
-branch  3 never executed
-branch  4 never executed (fallthrough)
-branch  5 never executed
+        8:10897:	    if (try > buf && WCHAR((unsigned char) try[-1]))
+branch  0 taken 88% (fallthrough)
+branch  1 taken 12%
+branch  2 taken 71% (fallthrough)
+branch  3 taken 29%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
         -:10898:	      break;
-    #####:10899:	    if (try + len < buf + size && WCHAR((unsigned char) try[len]))
-branch  0 never executed (fallthrough)
-branch  1 never executed
-branch  2 never executed (fallthrough)
-branch  3 never executed
-branch  4 never executed (fallthrough)
-branch  5 never executed
+        6:10899:	    if (try + len < buf + size && WCHAR((unsigned char) try[len]))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 83% (fallthrough)
+branch  3 taken 17%
+branch  4 taken 20% (fallthrough)
+branch  5 taken 80%
         -:10900:	      {
-    #####:10901:		try = kwsexec(kwset, beg, --len, &kwsmatch);
-call    0 never executed
-    #####:10902:		len = kwsmatch.size[0];
+        2:10901:		try = kwsexec(kwset, beg, --len, &kwsmatch);
+call    0 returned 100%
+        2:10902:		len = kwsmatch.size[0];
         -:10903:	      }
         -:10904:	    else
-    #####:10905:	      goto success;
+        4:10905:	      goto success;
         -:10906:	  }
         -:10907:      else
-       27:10908:	goto success;
+        9:10908:	goto success;
         -:10909:    }
         -:10910:
     #####:10911:  return 0;
         -:10912:
-       29:10913: success:
-       29:10914:  if ((end = memchr(beg + len, '\n', (buf + size) - (beg + len))) != 0)
-branch  0 taken 100% (fallthrough)
-branch  1 taken 0%
-       29:10915:    ++end;
+       13:10913: success:
+       13:10914:  if ((end = memchr(beg + len, '\n', (buf + size) - (beg + len))) != 0)
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+       12:10915:    ++end;
         -:10916:  else
-    #####:10917:    end = buf + size;
-       29:10918:  *endp = end;
-       33:10919:  while (beg > buf && beg[-1] != '\n')
-branch  0 taken 27% (fallthrough)
-branch  1 taken 73%
-branch  2 taken 44%
-branch  3 taken 56% (fallthrough)
-        4:10920:    --beg;
-       29:10921:  return beg;
+        1:10917:    end = buf + size;
+       13:10918:  *endp = end;
+       24:10919:  while (beg > buf && beg[-1] != '\n')
+branch  0 taken 54% (fallthrough)
+branch  1 taken 46%
+branch  2 taken 85%
+branch  3 taken 15% (fallthrough)
+       11:10920:    --beg;
+       13:10921:  return beg;
         -:10922:}
